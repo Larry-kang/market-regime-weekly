@@ -1,0 +1,53 @@
+site_name: 台灣市場週報
+site_description: 每週自動生成的公開市場階段報告，提供繁體中文閱讀。
+site_url: https://larry-kang.github.io/market-regime-weekly/
+repo_url: https://github.com/Larry-kang/market-regime-weekly
+edit_uri: edit/main/docs/
+
+nav:
+  - 首頁: index.md
+  - 最新週報:
+      - 最新總覽: weekly/index.md
+      - 2026-07-06 範例: weekly/2026-07-06.md
+  - 標的頁:
+      - BTC: market/btc.md
+      - TAIEX: market/taiex.md
+      - S&P 500: market/sp500.md
+      - Nasdaq 100: market/ndx.md
+      - 黃金: market/gold.md
+      - 美國 10Y: market/us10y.md
+      - DXY: market/dxy.md
+      - VIX: market/vix.md
+  - 去識別化與範圍: privacy.md
+
+
+theme:
+  name: material
+  language: zh-TW
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+extra:
+  generator: false
