@@ -20,7 +20,6 @@ nav:
       - VIX: market/vix.md
   - 去識別化與範圍: privacy.md
 
-
 theme:
   name: material
   language: zh-TW
@@ -28,8 +27,13 @@ theme:
     - navigation.instant
     - navigation.sections
     - navigation.top
+    - navigation.tracking
+    - toc.follow
     - content.code.copy
     - content.action.edit
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - admonition

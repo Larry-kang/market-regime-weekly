@@ -1,0 +1,178 @@
+.md-typeset {
+  --md-default-fg-color: #111111;
+  --md-default-fg-color--light: #555555;
+  --md-default-fg-color--lighter: #777777;
+  --md-default-bg-color: #fafafa;
+}
+
+:root {
+  --md-primary-fg-color: #111111;
+  --md-primary-fg-color--light: #111111;
+  --md-primary-fg-color--dark: #000000;
+  --md-accent-fg-color: #111111;
+}
+
+body {
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+}
+
+.md-header,
+.md-tabs {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.md-main__inner {
+  max-width: 1180px;
+}
+
+.md-content {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.md-typeset h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 0.8rem;
+}
+
+.md-typeset h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.85rem;
+  padding-left: 0.8rem;
+  border-left: 4px solid #111111;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h3 {
+  margin-top: 1.5rem;
+}
+
+.thread-feed {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.thread-card,
+.note-card,
+.callout-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+}
+
+.thread-card {
+  padding: 1.15rem 1.25rem;
+}
+
+.thread-connector {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.thread-connector::before {
+  content: "";
+  position: absolute;
+  left: 0.42rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0.22), rgba(17, 17, 17, 0.02));
+}
+
+.thread-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.75rem;
+  color: #555555;
+  font-size: 0.88rem;
+}
+
+.thread-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #6d6d6d 0%, #111111 70%);
+  flex: none;
+}
+
+.thread-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #111111;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.note-card,
+.callout-card {
+  padding: 1rem 1.1rem;
+}
+
+.callout-card {
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0.04), rgba(255, 255, 255, 0.96));
+}
+
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  margin: 1rem 0 1.5rem;
+}
+
+.card {
+  padding: 1rem 1.05rem;
+  border-radius: 22px;
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+}
+
+.card h3,
+.card p {
+  margin-top: 0;
+}
+
+.md-typeset table:not([class]) {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(17, 17, 17, 0.04);
+}
+
+.md-typeset table:not([class]) th {
+  background: #111111;
+  color: #ffffff;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+  border-color: rgba(17, 17, 17, 0.08);
+}
+
+.md-typeset blockquote {
+  border-left-color: #111111;
+  background: rgba(17, 17, 17, 0.03);
+  border-radius: 0 18px 18px 0;
+}
+
+@media (max-width: 768px) {
+  .md-content {
+    max-width: 100%;
+  }
+
+  .thread-card,
+  .note-card,
+  .callout-card,
+  .card {
+    border-radius: 18px;
+  }
+}
