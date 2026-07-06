@@ -510,7 +510,7 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 - [去識別化與範圍](privacy.md)
 
 ## 目前版本
-這是第一版站點骨架，已完成：
+這是第一版正式公開版，已完成：
 - GitHub Pages 可部署
 - Markdown 內容可讀
 - 站內導覽結構固定
@@ -613,7 +613,7 @@ date: {report_date}
 {action_lines}
 
 ## 備註
-本頁為公開版自動生成範例，未來會由排程 workflow 每週更新。
+本頁由排程自動生成，未來每週更新。
 """
 
 

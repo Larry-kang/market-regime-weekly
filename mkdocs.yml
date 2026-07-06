@@ -8,7 +8,7 @@ nav:
   - 首頁: index.md
   - 最新週報:
       - 最新總覽: weekly/index.md
-      - 2026-07-06 範例: weekly/2026-07-06.md
+      - 2026-07-06 台灣市場週報: weekly/2026-07-06.md
   - 標的頁:
       - BTC: market/btc.md
       - TAIEX: market/taiex.md
