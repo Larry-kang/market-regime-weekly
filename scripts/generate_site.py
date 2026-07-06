@@ -24,6 +24,7 @@ ASSETS = [
         "key": "btc",
         "label": "BTC",
         "symbol": "BTC-USD",
+        "kind": "btc",
         "page_title": "BTC 階段分析",
         "summary": "BTC 是高波動成長資產，適合用長期分批處理，而不是一次性重壓。",
         "risk": "長均線確認 / 波動風險",
@@ -39,6 +40,7 @@ ASSETS = [
         "key": "taiex",
         "label": "TAIEX",
         "symbol": "^TWII",
+        "kind": "equity",
         "page_title": "TAIEX 階段分析",
         "summary": "台股加權常常跑得比想像快，趨勢強時很強，但乖離擴大後也容易變得難追。",
         "risk": "乖離過大 / 追高風險",
@@ -54,6 +56,7 @@ ASSETS = [
         "key": "sp500",
         "label": "S&P 500",
         "symbol": "^GSPC",
+        "kind": "equity",
         "page_title": "S&P 500 階段分析",
         "summary": "S&P 500 是核心風險資產的代表，適合用規律的資金節奏持續累積。",
         "risk": "估值與風險偏好",
@@ -69,6 +72,7 @@ ASSETS = [
         "key": "ndx",
         "label": "Nasdaq 100",
         "symbol": "^NDX",
+        "kind": "equity",
         "page_title": "Nasdaq 100 階段分析",
         "summary": "Nasdaq 100 beta 高，受利率與風險偏好影響更大，反彈也通常更有速度。",
         "risk": "利率敏感 / 高 beta",
@@ -84,6 +88,7 @@ ASSETS = [
         "key": "gold",
         "label": "黃金",
         "symbol": "GC=F",
+        "kind": "macro",
         "page_title": "黃金階段分析",
         "summary": "黃金更像對沖與防守資產，適合在宏觀環境轉弱或避險需求升溫時觀察。",
         "risk": "整理區 / 非主攻",
@@ -99,6 +104,7 @@ ASSETS = [
         "key": "us10y",
         "label": "美國 10Y",
         "symbol": "^TNX",
+        "kind": "macro",
         "page_title": "美國 10Y 階段分析",
         "summary": "10 年期殖利率會直接影響估值與資金面，尤其對高 beta 資產最敏感。",
         "risk": "利率壓力 / 估值折現",
@@ -114,6 +120,7 @@ ASSETS = [
         "key": "dxy",
         "label": "DXY",
         "symbol": "DX-Y.NYB",
+        "kind": "macro",
         "page_title": "DXY 階段分析",
         "summary": "美元強弱會影響全球流動性與風險資產估值，常是市場情緒的重要背景音。",
         "risk": "美元偏強 / 壓抑風險資產",
@@ -129,6 +136,7 @@ ASSETS = [
         "key": "vix",
         "label": "VIX",
         "symbol": "^VIX",
+        "kind": "macro",
         "page_title": "VIX 階段分析",
         "summary": "VIX 反映波動與恐慌溫度，低波動時市場通常較平靜，但不代表可以無腦追高。",
         "risk": "波動是否升溫",
@@ -243,7 +251,7 @@ def macd_text(line: float | None, signal: float | None, hist: float | None, prev
     return f"MACD 線{relation}訊號線，柱狀體{sign}{abs(hist):.2f}{momentum}"
 
 
-def classify_stage(snapshot: dict) -> str:
+def classify_equity_stage(snapshot: dict) -> str:
     price = snapshot["close"]
     w20 = snapshot["weekly_ma20"]
     w50 = snapshot["weekly_ma50"]
@@ -266,6 +274,77 @@ def classify_stage(snapshot: dict) -> str:
     if price >= w200:
         return "復甦"
     return "過渡"
+
+
+def classify_btc_stage(snapshot: dict) -> str:
+    price = snapshot["close"]
+    d20 = snapshot["daily_ma20"]
+    d50 = snapshot["daily_ma50"]
+    d200 = snapshot["daily_ma200"]
+    w20 = snapshot["weekly_ma20"]
+    w50 = snapshot["weekly_ma50"]
+    w200 = snapshot["weekly_ma200"]
+    drsi = snapshot["daily_rsi"]
+    wrsi = snapshot["weekly_rsi"]
+    dhist = snapshot["daily_hist"]
+    whist = snapshot["weekly_hist"]
+    dist = snapshot["dist_200w_pct"]
+
+    if any(not is_number(v) for v in [price, d20, d50, d200, w20, w50, w200, drsi, wrsi, dhist, whist, dist]):
+        return "過渡"
+
+    if price < w200 and w20 < w50 < w200 and wrsi < 35 and whist < 0:
+        return "熊底"
+
+    if price < w200 * 0.98 or (price < w200 and wrsi < 45):
+        return "過渡"
+
+    if price >= w200 and wrsi < 45 and whist < 0 and abs(dist) < 10:
+        return "過渡"
+
+    if price >= w200 and (w20 > w50 > w200 or (drsi >= 50 and wrsi >= 45 and whist >= 0)):
+        if wrsi >= 70 or dist >= 25:
+            return "過熱"
+        if w20 > w50 > w200 and 50 <= wrsi < 65 and dist < 15:
+            return "牛初"
+        return "復甦"
+
+    if price >= w200:
+        return "復甦"
+
+    return "過渡"
+
+
+def classify_macro_stage(snapshot: dict) -> str:
+    price = snapshot["close"]
+    w20 = snapshot["weekly_ma20"]
+    w50 = snapshot["weekly_ma50"]
+    w200 = snapshot["weekly_ma200"]
+    wrsi = snapshot["weekly_rsi"]
+    whist = snapshot["weekly_hist"]
+    dist = snapshot["dist_200w_pct"]
+
+    if any(not is_number(v) for v in [price, w20, w50, w200, wrsi, whist, dist]):
+        return "過渡"
+
+    if price < w200 and wrsi < 50:
+        return "過渡"
+    if price >= w200 and w20 > w50 > w200 and 50 <= wrsi < 70 and dist < 25:
+        return "牛初"
+    if price >= w200 and (wrsi >= 70 or dist >= 25):
+        return "過熱"
+    if price >= w200:
+        return "復甦"
+    return "過渡"
+
+
+def classify_stage(spec: dict, snapshot: dict) -> str:
+    kind = spec.get("kind", "equity")
+    if kind == "btc":
+        return classify_btc_stage(snapshot)
+    if kind == "macro":
+        return classify_macro_stage(snapshot)
+    return classify_equity_stage(snapshot)
 
 
 def stage_proximity(current: str, row: str) -> str:
@@ -330,7 +409,7 @@ def build_snapshot(spec: dict) -> dict:
     }
     snapshot["dist_200w"] = snapshot["close"] - snapshot["weekly_ma200"]
     snapshot["dist_200w_pct"] = ((snapshot["close"] / snapshot["weekly_ma200"]) - 1) * 100 if is_number(snapshot["weekly_ma200"]) else None
-    snapshot["stage"] = classify_stage(snapshot)
+    snapshot["stage"] = classify_stage(spec, snapshot)
     return snapshot
 
 

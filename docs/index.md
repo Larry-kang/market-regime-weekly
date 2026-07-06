@@ -50,8 +50,8 @@
 ## 最新標的狀態
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>復甦</span></div>
-    <p>BTC：可續投，保留彈性</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>過渡</span></div>
+    <p>BTC：維持 DCA，等待更明確的長均線確認</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">TAIEX</span><span>過熱</span></div>
