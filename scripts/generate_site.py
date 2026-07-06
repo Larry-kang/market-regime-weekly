@@ -259,9 +259,9 @@ def classify_stage(snapshot: dict) -> str:
         return "熊底"
     if price < w200 * 0.97 or (price < w200 and wrsi < 50):
         return "過渡"
-    if price >= w200 and w20 > w50 > w200 and 50 <= wrsi < 70 and dist < 0.25:
+    if price >= w200 and w20 > w50 > w200 and 50 <= wrsi < 70 and dist < 25:
         return "牛初"
-    if price >= w200 and (wrsi >= 70 or dist >= 0.25):
+    if price >= w200 and (wrsi >= 70 or dist >= 25):
         return "過熱"
     if price >= w200:
         return "復甦"

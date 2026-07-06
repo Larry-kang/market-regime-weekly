@@ -7,8 +7,8 @@ date: 2026-07-06
 
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">目前結論</span><span>美國 10Y / 過熱</span></div>
-    <p>**階段：過熱**。留意折現壓力。</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">目前結論</span><span>美國 10Y / 牛初</span></div>
+    <p>**階段：牛初**。若趨勢穩定可視為順風。</p>
   </div>
 
   <div class="thread-card thread-connector">
@@ -44,13 +44,13 @@ date: 2026-07-06
 |---|---|---|
 | 熊底 | 跌破 200W、20W/50W/200W 空頭排列、RSI 低檔、MACD 負值擴大 | 否 |
 | 過渡 | 仍未完全站穩 200W，或剛開始靠近，動能改善但還不完整 | 否 |
-| 復甦 | 收復 200W，短中期均線開始翻揚，動能回到正向 | 否 |
-| 牛初 | 20W > 50W > 200W，價格站穩長均線，RSI 多在中性到偏強 | 部分符合 |
-| 過熱 | 漲幅與乖離擴大，週 RSI 進入超買，追價風險高 | 是，最貼近目前狀態 |
+| 復甦 | 收復 200W，短中期均線開始翻揚，動能回到正向 | 部分符合 |
+| 牛初 | 20W > 50W > 200W，價格站穩長均線，RSI 多在中性到偏強 | 是，最貼近目前狀態 |
+| 過熱 | 漲幅與乖離擴大，週 RSI 進入超買，追價風險高 | 部分符合 |
 
 ## 實務意思
-- **目前階段**：過熱
-- **對應動作**：留意折現壓力
+- **目前階段**：牛初
+- **對應動作**：若趨勢穩定可視為順風
 - **風險重點**：利率壓力 / 估值折現
 - **我的解讀**：10 年期殖利率會直接影響估值與資金面，尤其對高 beta 資產最敏感。
 

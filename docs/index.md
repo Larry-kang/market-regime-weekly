@@ -5,7 +5,7 @@
 <div class="card-grid">
   <div class="card">
     <h3>最新狀態</h3>
-    <p>風險資產整體偏熱，台股與美股核心都已進入高檔區，現階段重點是控節奏而不是追價。</p>
+    <p>市場仍偏多，但多數資產已進入過熱或接近過熱，回檔後再布局會比追高舒服。</p>
   </div>
   <div class="card">
     <h3>內容形式</h3>
@@ -50,8 +50,8 @@
 ## 最新標的狀態
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>過熱</span></div>
-    <p>BTC：放慢節奏，等回檔</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>復甦</span></div>
+    <p>BTC：可續投，保留彈性</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">TAIEX</span><span>過熱</span></div>
@@ -70,8 +70,8 @@
     <p>GOLD：觀察乖離，不追高</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">US10Y</span><span>過熱</span></div>
-    <p>美國 10Y：留意折現壓力</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">US10Y</span><span>牛初</span></div>
+    <p>美國 10Y：若趨勢穩定可視為順風</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">DXY</span><span>過渡</span></div>
