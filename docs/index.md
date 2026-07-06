@@ -66,8 +66,8 @@
     <p>NDX：避免追價</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">GOLD</span><span>過熱</span></div>
-    <p>GOLD：觀察乖離，不追高</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">GOLD</span><span>復甦</span></div>
+    <p>GOLD：可小量布局</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">US10Y</span><span>牛初</span></div>
