@@ -21,5 +21,27 @@
 - 階段分類表只保留最終結論
 - 若資料不足，直接標示 N/A
 
+## GitHub branch protection 清單
+
+如果這個 repo 是公開的，建議把 `main` 分支設成 *protected branch*，這樣可以明確降低「別人亂改」的風險：
+
+- [ ] **Require a pull request before merging**
+- [ ] **Require at least 1 review approval**
+- [ ] **Dismiss stale approvals when new commits are pushed**
+- [ ] **Require status checks to pass before merging**
+- [ ] **Require branches to be up to date before merging**
+- [ ] **Restrict who can push to matching branches**
+- [ ] **Block force pushes**
+- [ ] **Block branch deletions**
+- [ ] **Only allow GitHub Actions / Pages workflow to publish site output**
+- [ ] **Limit write access to trusted collaborators only**
+
+## 驗證重點
+
+- 不是每個人都能直接改 `main`
+- 任何變更都應先經過 PR
+- PR 需要 review 與 CI / build 通過
+- GitHub Pages 的發佈來源只保留自動化 workflow
+
 ## 目的
 把每週的市場報告做成可閱讀、可追蹤、可公開分享的靜態頁面。
