@@ -2,13 +2,13 @@
 
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新報告</span><span>2026-07-06</span></div>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新報告</span><span>2026-07-13</span></div>
     <p>這一頁放最近一週的完整內容，並保留歷史歸檔連結。內容採 Threads 風格，先給結論，再往下展開細節。</p>
   </div>
 </div>
 
 ## 最新一則
-- [2026-07-06 台灣市場週報](2026-07-06.md)
+- [2026-07-13 台灣市場週報](2026-07-13.md)
 
 ## 階段摘要
 | 標的 | 階段 | 判斷結果 |
@@ -23,6 +23,7 @@
 | VIX | 過渡 | 觀察波動變化 |
 
 ## 歷史歸檔
+- [2026-07-13 台灣市場週報](2026-07-13.md)
 - [2026-07-06 台灣市場週報](2026-07-06.md)
 
 > 未來每週產出的報告都會放在這個資料夾，並以日期命名。
