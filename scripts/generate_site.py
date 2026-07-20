@@ -489,7 +489,7 @@ def render_weekly_index(report_files: list[Path], latest_report: str, latest_sta
     archives = []
     for path in report_files:
         date = path.stem
-        archives.append(f"- [{date} 台灣市場週報]({date}.md)")
+        archives.append(f"- [{date} 台灣市場週報]({date}/)")
     archive_text = "\n".join(archives) if archives else "- 尚無報告"
 
     rows = latest_stage_rows
@@ -505,7 +505,7 @@ def render_weekly_index(report_files: list[Path], latest_report: str, latest_sta
 </div>
 
 ## 最新一則
-- [{latest_report} 台灣市場週報]({latest_report}.md)
+- [{latest_report} 台灣市場週報]({latest_report}/)
 
 ## 階段摘要
 {summary_table}
@@ -701,7 +701,7 @@ date: {report_date}
 def render_weekly_index_page(report_files: list[Path], latest_report: str, snaps: dict[str, dict]) -> str:
     rows = [[spec["label"], snaps[spec["key"]]["stage"], advice_for(spec, snaps[spec["key"]]["stage"])] for spec in ASSETS]
     stage_summary = table(["標的", "階段", "判斷結果"], rows)
-    archives = "\n".join([f"- [{p.stem} 台灣市場週報]({p.name})" for p in report_files]) if report_files else "- 尚無報告"
+    archives = "\n".join([f"- [{p.stem} 台灣市場週報]({p.stem}/)" for p in report_files]) if report_files else "- 尚無報告"
     return f"""# 最新週報
 
 <div class="thread-feed">
@@ -712,7 +712,7 @@ def render_weekly_index_page(report_files: list[Path], latest_report: str, snaps
 </div>
 
 ## 最新一則
-- [{latest_report} 台灣市場週報]({latest_report}.md)
+- [{latest_report} 台灣市場週報]({latest_report}/)
 
 ## 階段摘要
 {stage_summary}

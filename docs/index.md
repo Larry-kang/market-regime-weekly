@@ -78,8 +78,8 @@
     <p>DXY：暫不追</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>牛初</span></div>
-    <p>VIX：留意波動是否開始放大</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>復甦</span></div>
+    <p>VIX：若回升可提高風控</p>
   </div>
 </div>
 
