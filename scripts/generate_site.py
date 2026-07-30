@@ -587,8 +587,8 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 </div>
 
 ## 快速入口
-- [最新週報：{latest_report} 台灣市場週報](weekly/{latest_report}/)
-- [週報歷史索引](weekly/index.md)
+- <a href="weekly/{latest_report}/">最新週報：{latest_report} 台灣市場週報</a>
+- <a href="weekly/index.md">週報歷史索引</a>
 - [去識別化與範圍](privacy.md)
 
 ## 目前版本

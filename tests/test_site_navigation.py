@@ -50,6 +50,12 @@ class SiteNavigationTests(unittest.TestCase):
 
         self.assertIn("weekly/2026-07-27/", direct_links)
 
+    def test_checked_in_homepage_exposes_current_report(self) -> None:
+        homepage = (ROOT / "docs/index.md").read_text(encoding="utf-8")
+
+        self.assertIn("2026-07-27 台灣市場週報", homepage)
+        self.assertIn('href="weekly/2026-07-27/"', homepage)
+
 
 if __name__ == "__main__":
     unittest.main()
