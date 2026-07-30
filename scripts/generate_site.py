@@ -536,11 +536,24 @@ def overall_summary(snaps: dict[str, dict]) -> str:
 
 def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]) -> str:
     top_line = overall_summary(snaps)
-    cards = [
-        ["最新更新", latest_date, "自動生成"],
-        ["最新週報", f"[{latest_report} 台灣市場週報](weekly/{latest_report}.md)", "公開版完整內容"],
-        ["首頁定位", "台灣市場週報", "Threads 風格 / 繁體中文"],
-    ]
+    latest_cards = f"""<div class=\"card-grid\">
+  <div class=\"card\">
+    <h3>最新更新</h3>
+    <p>{latest_date}</p>
+    <p>自動生成</p>
+    <p>{top_line}</p>
+  </div>
+  <div class=\"card\">
+    <h3>最新週報</h3>
+    <p><a href=\"weekly/{latest_report}/\">{latest_report} 台灣市場週報</a></p>
+    <p>更新日期：{latest_date}</p>
+  </div>
+  <div class=\"card\">
+    <h3>首頁定位</h3>
+    <p>台灣市場週報</p>
+    <p>Threads 風格 / 繁體中文</p>
+  </div>
+</div>"""
     asset_cards = []
     for key in ["btc", "taiex", "sp500", "ndx", "gold", "us10y", "dxy", "vix"]:
         snap = snaps[key]
@@ -553,20 +566,7 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 
 > 每週自動生成的公開市場觀察，面向台灣中文讀者。
 
-<div class="card-grid">
-  <div class="card">
-    <h3>最新狀態</h3>
-    <p>{top_line}</p>
-  </div>
-  <div class="card">
-    <h3>內容形式</h3>
-    <p>以 Threads 風格呈現：短卡片、清楚標題、每週更新、方便快速掃讀。</p>
-  </div>
-  <div class="card">
-    <h3>公開原則</h3>
-    <p>只放公開版市場觀察，不放個人資金、借貸細節或私有策略。</p>
-  </div>
-</div>
+{latest_cards}
 
 ## 這裡會看到什麼
 <div class="thread-feed">
@@ -587,7 +587,8 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 </div>
 
 ## 快速入口
-- [最新週報](weekly/index.md)
+- [最新週報：{latest_report} 台灣市場週報](weekly/{latest_report}/)
+- [週報歷史索引](weekly/index.md)
 - [去識別化與範圍](privacy.md)
 
 ## 目前版本

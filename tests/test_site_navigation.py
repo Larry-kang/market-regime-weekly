@@ -1,0 +1,55 @@
+from __future__ import annotations
+
+import re
+import unittest
+from pathlib import Path
+
+from scripts.generate_site import ASSETS, render_homepage, render_weekly_index_page
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+class SiteNavigationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.report_date = "2026-07-27"
+        self.snaps = {spec["key"]: {"stage": "復甦"} for spec in ASSETS}
+
+    def test_homepage_shows_latest_update_and_direct_report_link(self) -> None:
+        html = render_homepage(self.report_date, self.report_date, self.snaps)
+
+        self.assertIn(self.report_date, html)
+        self.assertIn("2026-07-27 台灣市場週報", html)
+        self.assertIn("weekly/2026-07-27/", html)
+        self.assertNotIn("weekly/2026-07-27.md", html)
+        self.assertNotIn("[最新週報](weekly/index.md)", html)
+
+    def test_mkdocs_nav_has_no_hardcoded_weekly_dates(self) -> None:
+        mkdocs = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+
+        self.assertIsNone(re.search(r"weekly/\d{4}-\d{2}-\d{2}\.md", mkdocs))
+        self.assertIn("最新總覽: weekly/index.md", mkdocs)
+
+    def test_weekly_index_puts_latest_report_first(self) -> None:
+        report_files = [
+            ROOT / "docs/weekly/2026-07-27.md",
+            ROOT / "docs/weekly/2026-07-20.md",
+            ROOT / "docs/weekly/2026-07-13.md",
+        ]
+        html = render_weekly_index_page(report_files, self.report_date, self.snaps)
+
+        latest_position = html.index("2026-07-27 台灣市場週報")
+        previous_position = html.index("2026-07-20 台灣市場週報")
+        oldest_position = html.index("2026-07-13 台灣市場週報")
+        self.assertLess(latest_position, previous_position)
+        self.assertLess(previous_position, oldest_position)
+
+    def test_latest_report_link_is_not_only_weekly_index(self) -> None:
+        html = render_homepage(self.report_date, self.report_date, self.snaps)
+        direct_links = re.findall(r'href="(weekly/[^"/]+/)"', html)
+
+        self.assertIn("weekly/2026-07-27/", direct_links)
+
+
+if __name__ == "__main__":
+    unittest.main()

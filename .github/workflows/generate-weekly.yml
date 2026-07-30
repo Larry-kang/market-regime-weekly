@@ -31,8 +31,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run tests
+        run: python -m unittest discover -s tests -p "test_*.py"
+
       - name: Generate weekly reports
         run: python scripts/generate_site.py
+
+      - name: Validate generated site
+        run: python scripts/validate_generated_site.py
 
       - name: Commit changes
         run: |
