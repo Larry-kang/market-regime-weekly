@@ -4,7 +4,7 @@ import re
 import unittest
 from pathlib import Path
 
-from scripts.generate_site import ASSETS, render_homepage, render_weekly_index_page
+from scripts.generate_site import ASSETS, render_daily_index_page, render_homepage, render_weekly_index_page
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,11 +16,12 @@ class SiteNavigationTests(unittest.TestCase):
         self.snaps = {spec["key"]: {"stage": "復甦"} for spec in ASSETS}
 
     def test_homepage_shows_latest_update_and_direct_report_link(self) -> None:
-        html = render_homepage(self.report_date, self.report_date, self.snaps)
+        html = render_homepage(self.report_date, self.report_date, self.snaps, self.report_date)
 
         self.assertIn(self.report_date, html)
         self.assertIn("2026-07-27 台灣市場週報", html)
         self.assertIn("weekly/2026-07-27/", html)
+        self.assertIn("daily/2026-07-27/", html)
         self.assertNotIn("weekly/2026-07-27.md", html)
         self.assertNotIn("[最新週報](weekly/index.md)", html)
 
@@ -49,6 +50,17 @@ class SiteNavigationTests(unittest.TestCase):
         direct_links = re.findall(r'href="(weekly/[^"/]+/)"', html)
 
         self.assertIn("weekly/2026-07-27/", direct_links)
+
+    def test_daily_index_puts_latest_report_first(self) -> None:
+        report_files = [
+            ROOT / "docs/daily/2026-07-27.md",
+            ROOT / "docs/daily/2026-07-26.md",
+        ]
+        html = render_daily_index_page(report_files, self.report_date)
+        self.assertLess(
+            html.index("2026-07-27 台灣市場日報"),
+            html.index("2026-07-26 台灣市場日報"),
+        )
 
     def test_checked_in_homepage_exposes_current_report(self) -> None:
         homepage = (ROOT / "docs/index.md").read_text(encoding="utf-8")

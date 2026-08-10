@@ -1,8 +1,9 @@
-name: generate-weekly
+name: generate-daily
 
 on:
   schedule:
-    - cron: '5 1 * * 1'
+    # 14:05 Taiwan time on weekdays; after the Taiwan cash market close.
+    - cron: '5 6 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -34,11 +35,11 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s tests -p "test_*.py"
 
-      - name: Generate weekly reports
-        run: python scripts/generate_site.py --mode weekly
+      - name: Generate daily reports
+        run: python scripts/generate_site.py --mode daily
 
       - name: Validate generated site
-        run: python scripts/validate_generated_site.py "$(TZ=Asia/Taipei date +%F)" . weekly
+        run: python scripts/validate_generated_site.py "$(TZ=Asia/Taipei date +%F)" . daily
 
       - name: Commit changes
         run: |
@@ -49,5 +50,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs README.md
-          git commit -m "chore: generate weekly market reports"
+          git commit -m "chore: generate daily market reports"
           git push

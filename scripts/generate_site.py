@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import math
 import time
 from dataclasses import dataclass
@@ -12,6 +13,7 @@ import yfinance as yf
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
+DAILY_DIR = DOCS / "daily"
 MARKET_DIR = DOCS / "market"
 WEEKLY_DIR = DOCS / "weekly"
 TZ = ZoneInfo("Asia/Taipei")
@@ -168,6 +170,7 @@ ASSETS = [
 
 
 def ensure_dirs() -> None:
+    DAILY_DIR.mkdir(parents=True, exist_ok=True)
     MARKET_DIR.mkdir(parents=True, exist_ok=True)
     WEEKLY_DIR.mkdir(parents=True, exist_ok=True)
     (DOCS / "stylesheets").mkdir(parents=True, exist_ok=True)
@@ -638,14 +641,20 @@ def overall_summary(snaps: dict[str, dict]) -> str:
     return "市場結構正在分化，核心資產可續投，但單筆追價的容錯率已經下降。"
 
 
-def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]) -> str:
+def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict], latest_daily: str | None = None) -> str:
     top_line = overall_summary(snaps)
+    daily_link = f'<p><a href="daily/{latest_daily}/">{latest_daily} 台灣市場日報</a></p>' if latest_daily else "<p>尚無日報</p>"
     latest_cards = f"""<div class=\"card-grid\">
   <div class=\"card\">
     <h3>最新更新</h3>
     <p>{latest_date}</p>
     <p>自動生成</p>
     <p>{top_line}</p>
+  </div>
+  <div class=\"card\">
+    <h3>最新日報</h3>
+    {daily_link}
+    <p>每日交易日更新</p>
   </div>
   <div class=\"card\">
     <h3>最新週報</h3>
@@ -710,6 +719,86 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 
 ## 使用方式
 之後每週只要把新的 Markdown 週報放進 `docs/weekly/`，網站就會自動更新。
+"""
+
+
+def render_daily_report(snaps: dict[str, dict], report_date: str) -> str:
+    rows = []
+    cards = []
+    for spec in ASSETS:
+        snap = snaps[spec["key"]]
+        overlay = snap["daily_overlay"]
+        rows.append([
+            spec["label"],
+            f"{fmt_num(snap['close'])}（{snap['close_date']}）",
+            overlay["state"],
+            f"{fmt_pct(snap['daily_return_7d_pct'])}",
+            f"{overlay['support']} / {overlay['resistance']}",
+            overlay["confidence"],
+        ])
+        cards.append(
+            f"""  <div class=\"thread-card thread-connector\">\n    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">{spec['label']}</span><span>{overlay['state']}</span></div>\n    <p>收盤 {fmt_num(snap['close'])}；7 日報酬 {fmt_pct(snap['daily_return_7d_pct'])}；支撐 {overlay['support']}，壓力 {overlay['resistance']}。</p>\n  </div>"""
+        )
+    card_text = "\n".join(cards)
+    return f"""---
+title: {report_date} 台灣市場日報
+date: {report_date}
+---
+
+# {report_date} 台灣市場日報
+
+> 本頁只使用公開市場資料；資料日期依各市場最近可取得收盤日，非交易日不代表資料遺失。
+
+<div class=\"thread-feed\">
+  <div class=\"thread-card thread-connector\">
+    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">每日短線總結</span><span>公開版 daily market report</span></div>
+    <p>先看短線狀態，再回到週期階段；日報不取代週報，也不包含私人資產或槓桿資訊。</p>
+  </div>
+</div>
+
+## 市場短線比較
+{table(["標的", "最新收盤", "日報狀態", "7 日報酬", "支撐 / 壓力", "信心"], rows)}
+
+## 個別市場觀察
+<div class=\"thread-feed\">
+{card_text}
+</div>
+
+## 判讀規則
+
+- 日報 overlay 使用最近 7 個可用交易日、3／5／7 日均線、短樣本 RSI(6)、近期高低點與成交量比。
+- 「接近壓力」不等於確認突破；突破仍需後續收盤與量價確認。
+- 短樣本 RSI 只作為短線提示，不單獨作為交易訊號。
+- 完整週期階段請參考[最新週報](../weekly/index.md)。
+
+## 資料限制
+
+- 資料來源為 Yahoo Finance 公開行情介面，透過 yfinance 取得。
+- 各市場交易時間不同，報告時間可能對應不同的最新收盤日。
+- 休市、延遲或資料缺漏時保留 N/A，不人工補值。
+
+## 相關頁面
+
+- [最新週報](../weekly/{report_date}.md)
+- [每日報告索引](index.md)
+"""
+
+
+def render_daily_index_page(report_files: list[Path], latest_report: str) -> str:
+    archives = "\n".join([f'<a href="{p.stem}/">{p.stem} 台灣市場日報</a><br>' for p in report_files]) if report_files else "- 尚無報告"
+    return f"""# 最新日報
+
+> 公開版每日市場短線觀察；不包含私人資產或槓桿資料。
+
+## 最新一則
+
+<a href=\"{latest_report}/\">{latest_report} 台灣市場日報</a>
+
+## 歷史歸檔
+
+{archives}
+
+> 每個交易日由 GitHub Actions 自動更新；各市場以最近可取得的公開收盤資料為準。
 """
 
 
@@ -835,6 +924,9 @@ def write(path: Path, content: str) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate public market reports")
+    parser.add_argument("--mode", choices=["daily", "weekly"], default="weekly")
+    args = parser.parse_args()
     ensure_dirs()
 
     snapshots: dict[str, dict] = {}
@@ -845,19 +937,28 @@ def main() -> None:
 
     report_date = TODAY
 
-    # Generate detailed asset pages.
     for spec in ASSETS:
         snap = snapshots[spec["key"]]
         write(MARKET_DIR / f"{spec['key']}.md", render_asset_page(spec, snap, report_date))
 
-    # Generate weekly report + landing pages.
+    daily_files = sorted([p for p in DAILY_DIR.glob("*.md") if p.name != "index.md"], reverse=True)
+    if args.mode == "daily":
+        daily_report_path = DAILY_DIR / f"{report_date}.md"
+        write(daily_report_path, render_daily_report(snapshots, report_date))
+        daily_files = sorted([p for p in DAILY_DIR.glob("*.md") if p.name != "index.md"], reverse=True)
+        write(DAILY_DIR / "index.md", render_daily_index_page(daily_files, report_date))
+        weekly_files = sorted([p for p in WEEKLY_DIR.glob("*.md") if p.name != "index.md"], reverse=True)
+        latest_weekly = weekly_files[0].stem if weekly_files else report_date
+        write(DOCS / "index.md", render_homepage(report_date, latest_weekly, snapshots, report_date))
+        print(f"[done] generated {daily_report_path}")
+        return
+
     weekly_report_path = WEEKLY_DIR / f"{report_date}.md"
     write(weekly_report_path, render_weekly_report(snapshots, report_date))
-
     weekly_files = sorted([p for p in WEEKLY_DIR.glob("*.md") if p.name != "index.md"], reverse=True)
     write(WEEKLY_DIR / "index.md", render_weekly_index_page(weekly_files, report_date, snapshots))
-    write(DOCS / "index.md", render_homepage(report_date, report_date, snapshots))
-
+    latest_daily = daily_files[0].stem if daily_files else None
+    write(DOCS / "index.md", render_homepage(report_date, report_date, snapshots, latest_daily))
     print(f"[done] generated {weekly_report_path}")
 
 

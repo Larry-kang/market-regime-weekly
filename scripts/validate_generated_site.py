@@ -16,8 +16,25 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
-def validate_generated_site(root: Path, report_date: str) -> None:
+def validate_generated_site(root: Path, report_date: str, mode: str = "weekly") -> None:
     docs = root / "docs"
+    if mode == "daily":
+        daily = docs / "daily"
+        report_path = daily / f"{report_date}.md"
+        index_path = daily / "index.md"
+        homepage_path = docs / "index.md"
+        for path in [report_path, index_path, homepage_path]:
+            if not path.is_file():
+                fail(f"missing generated file: {path.relative_to(root)}")
+        index = index_path.read_text(encoding="utf-8")
+        homepage = homepage_path.read_text(encoding="utf-8")
+        if f'href="{report_date}/"' not in index:
+            fail("daily index does not link directly to the latest report")
+        if f"daily/{report_date}/" not in homepage:
+            fail("homepage does not contain direct daily report link")
+        print(f"[validate] generated daily report {report_date}")
+        return
+
     weekly = docs / "weekly"
     report_path = weekly / f"{report_date}.md"
     index_path = weekly / "index.md"
@@ -50,10 +67,13 @@ def validate_generated_site(root: Path, report_date: str) -> None:
 def main() -> None:
     report_date = sys.argv[1] if len(sys.argv) > 1 else datetime.now(TZ).strftime("%Y-%m-%d")
     root = Path(sys.argv[2]).resolve() if len(sys.argv) > 2 else DEFAULT_ROOT
+    mode = sys.argv[3] if len(sys.argv) > 3 else "weekly"
     if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", report_date):
         fail(f"invalid report date: {report_date}")
 
-    validate_generated_site(root, report_date)
+    if mode not in {"daily", "weekly"}:
+        fail(f"invalid mode: {mode}")
+    validate_generated_site(root, report_date, mode)
     print(f"[validate] generated site contains latest report {report_date}")
 
 

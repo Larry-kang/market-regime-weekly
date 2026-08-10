@@ -35,12 +35,21 @@ Yahoo Finance 是資料分發來源；不同標的可能有交易所延遲、休
 
 短線 overlay 是輔助層，不會覆蓋週期階段；例如同一標的可以同時呈現「週期階段：復甦」與「日線：偏多震盪／接近壓力」。
 
+## 報告產出與部署
+
+- **日報**：每週一至週五台灣時間約 14:05 產出 `docs/daily/YYYY-MM-DD.md`，以各市場最近可取得的公開收盤資料為準。
+- **週報**：每週一台灣時間約 09:05 產出 `docs/weekly/YYYY-MM-DD.md`。
+- 兩個 workflow 共用 concurrency，避免同時 commit／push 造成衝突。
+- GitHub Pages 會在文件 push 後自動建置發布；兩者都保留 `workflow_dispatch` 手動執行入口。
+
 ## 本地驗證
 
 ```bash
 python -m unittest discover -s tests -p "test_*.py"
-python scripts/generate_site.py
+python scripts/generate_site.py --mode weekly
 python scripts/validate_generated_site.py
+python scripts/generate_site.py --mode daily
+python scripts/validate_generated_site.py "$(TZ=Asia/Taipei date +%F)" . daily
 mkdocs build --strict
 ```
 

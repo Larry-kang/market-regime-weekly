@@ -1,11 +1,13 @@
 site_name: 台灣市場週報
-site_description: 每週自動生成的公開市場階段報告，提供繁體中文閱讀。
+site_description: 每日與每週自動生成的公開市場報告，提供繁體中文閱讀。
 site_url: https://larry-kang.github.io/market-regime-weekly/
 repo_url: https://github.com/Larry-kang/market-regime-weekly
 edit_uri: edit/main/docs/
 
 nav:
   - 首頁: index.md
+  - 最新日報:
+      - 最新總覽: daily/index.md
   - 最新週報:
       - 最新總覽: weekly/index.md
   - 標的頁:
