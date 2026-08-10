@@ -27,6 +27,8 @@ class SiteNavigationTests(unittest.TestCase):
         self.assertNotIn("去識別化", html)
         self.assertNotIn("公開版", html)
         self.assertNotIn("自動生成", html)
+        self.assertNotIn("Nasdaq 100", html)
+        self.assertIn("QQQ", html)
 
     def test_mkdocs_nav_has_no_hardcoded_weekly_dates(self) -> None:
         mkdocs = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
@@ -100,6 +102,16 @@ class SiteNavigationTests(unittest.TestCase):
         self.assertIn("## 資產行動摘要", latest)
         self.assertIn("## 宏觀訊號", latest)
         self.assertNotIn("## 現金流建議買入區塊", latest)
+        self.assertNotIn("| Nasdaq 100 |", latest)
+        self.assertIn("| QQQ |", latest)
+
+    def test_ndx_is_removed_and_qqq_is_retained(self) -> None:
+        mkdocs = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+        self.assertNotIn("Nasdaq 100", mkdocs)
+        self.assertNotIn("market/ndx.md", mkdocs)
+        self.assertIn("QQQ: market/qqq.md", mkdocs)
+        self.assertNotIn('"key": "ndx"', (ROOT / "scripts/generate_site.py").read_text(encoding="utf-8"))
+        self.assertIn('"key": "qqq"', (ROOT / "scripts/generate_site.py").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

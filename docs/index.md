@@ -55,10 +55,6 @@
     <p>SP500：續投但節奏放慢</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">NDX</span><span>過熱</span></div>
-    <p>NDX：避免追價</p>
-  </div>
-  <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">QQQ</span><span>過熱</span></div>
     <p>QQQ：避免追價</p>
   </div>

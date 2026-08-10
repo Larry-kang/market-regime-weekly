@@ -12,7 +12,7 @@ date: 2026-08-10
   </div>
 
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">一句話</span><span>QQQ 是可交易的 Nasdaq 100 ETF，短線訊號用來補充指數的中期結構，不取代 Nasdaq 100 基準。</span></div>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">一句話</span><span>QQQ 是可交易的高 beta 成長 ETF，短線訊號用來補充中期結構。</span></div>
     <p>高 beta / 超買與量價背離 是現在最需要看的重點。</p>
   </div>
 </div>
@@ -56,4 +56,4 @@ date: 2026-08-10
 - **目前階段**：過熱
 - **對應動作**：避免追價
 - **風險重點**：高 beta / 超買與量價背離
-- **我的解讀**：QQQ 是可交易的 Nasdaq 100 ETF，短線訊號用來補充指數的中期結構，不取代 Nasdaq 100 基準。
+- **我的解讀**：QQQ 是可交易的高 beta 成長 ETF，短線訊號用來補充中期結構。

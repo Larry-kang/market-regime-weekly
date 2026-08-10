@@ -17,8 +17,7 @@
 | BTC | `BTC-USD` | Bitcoin 現貨價格代理 |
 | TAIEX | `^TWII` | 台灣加權指數 |
 | S&P 500 | `^GSPC` | 美國主要基準 |
-| Nasdaq 100 | `^NDX` | 美國成長型指數基準 |
-| QQQ | `QQQ` | 可交易 Nasdaq 100 ETF 的短線 overlay |
+| QQQ | `QQQ` | 可交易的高 beta 成長 ETF |
 | 黃金 | `GC=F` | 黃金期貨代理 |
 | 美國 10Y | `^TNX` | 美國十年期殖利率代理 |
 | DXY | `DX-Y.NYB` | 美元指數代理 |

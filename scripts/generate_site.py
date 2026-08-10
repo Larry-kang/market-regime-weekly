@@ -71,28 +71,12 @@ ASSETS = [
         },
     },
     {
-        "key": "ndx",
-        "label": "Nasdaq 100",
-        "symbol": "^NDX",
-        "kind": "equity",
-        "page_title": "Nasdaq 100 階段分析",
-        "summary": "Nasdaq 100 beta 高，受利率與風險偏好影響更大，反彈也通常更有速度。",
-        "risk": "利率敏感 / 高 beta",
-        "actions": {
-            "熊底": "只小量觀察",
-            "過渡": "等待結構確認",
-            "復甦": "回檔後分批",
-            "牛初": "只在回檔加",
-            "過熱": "避免追價",
-        },
-    },
-    {
         "key": "qqq",
         "label": "QQQ",
         "symbol": "QQQ",
         "kind": "equity",
         "page_title": "QQQ 短線與階段分析",
-        "summary": "QQQ 是可交易的 Nasdaq 100 ETF，短線訊號用來補充指數的中期結構，不取代 Nasdaq 100 基準。",
+        "summary": "QQQ 是可交易的高 beta 成長 ETF，短線訊號用來補充中期結構。",
         "risk": "高 beta / 超買與量價背離",
         "actions": {
             "熊底": "只小量觀察",
@@ -658,7 +642,7 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
   </div>
 </div>"""
     asset_cards = []
-    for key in ["btc", "taiex", "sp500", "ndx", "qqq", "gold", "us10y", "dxy", "vix"]:
+    for key in ["btc", "taiex", "sp500", "qqq", "gold", "us10y", "dxy", "vix"]:
         snap = snaps[key]
         asset_cards.append(
             f"""  <div class=\"thread-card thread-connector\">\n    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">{key.upper() if key != 'us10y' else 'US10Y'}</span><span>{snap['stage']}</span></div>\n    <p>{key.upper() if key != 'us10y' else '美國 10Y'}：{advice_for(next(a for a in ASSETS if a['key']==key), snap['stage'])}</p>\n  </div>"""
@@ -774,7 +758,7 @@ def render_weekly_report(snaps: dict[str, dict], report_date: str) -> str:
     stage_map_rows = [[spec["label"], snaps[spec["key"]]["stage"]] for spec in ASSETS]
     stage_map = table(["標的", "階段"], stage_map_rows)
     summary = overall_summary(snaps)
-    flow_assets = ["btc", "sp500", "ndx", "taiex"]
+    flow_assets = ["btc", "sp500", "qqq", "taiex"]
     flow = " → ".join([
         f"{next(spec['label'] for spec in ASSETS if spec['key'] == key)}：{advice_for(next(spec for spec in ASSETS if spec['key'] == key), snaps[key]['stage'])}"
         for key in flow_assets
@@ -783,7 +767,7 @@ def render_weekly_report(snaps: dict[str, dict], report_date: str) -> str:
     dxy_stage = snaps["dxy"]["stage"]
     vix_stage = snaps["vix"]["stage"]
     gold_stage = snaps["gold"]["stage"]
-    investable_keys = {"btc", "taiex", "sp500", "ndx", "qqq", "gold"}
+    investable_keys = {"btc", "taiex", "sp500", "qqq", "gold"}
     asset_action_lines = "\n".join(
         [f"- **{spec['label']}**：{snaps[spec['key']]['stage']}，{advice_for(spec, snaps[spec['key']]['stage'])}。" for spec in ASSETS if spec["key"] in investable_keys]
     )
