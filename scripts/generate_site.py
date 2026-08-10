@@ -85,6 +85,22 @@ ASSETS = [
         },
     },
     {
+        "key": "qqq",
+        "label": "QQQ",
+        "symbol": "QQQ",
+        "kind": "equity",
+        "page_title": "QQQ 短線與階段分析",
+        "summary": "QQQ 是可交易的 Nasdaq 100 ETF，短線訊號用來補充指數的中期結構，不取代 Nasdaq 100 基準。",
+        "risk": "高 beta / 超買與量價背離",
+        "actions": {
+            "熊底": "只小量觀察",
+            "過渡": "等待結構確認",
+            "復甦": "回檔後分批",
+            "牛初": "只在回檔加",
+            "過熱": "避免追價",
+        },
+    },
+    {
         "key": "gold",
         "label": "黃金",
         "symbol": "GC=F",
@@ -194,7 +210,7 @@ def table(headers: list[str], rows: list[list[str]]) -> str:
     return "\n".join([head, sep, *body])
 
 
-def fetch_close_series(symbol: str, period: str = "10y", retries: int = 3) -> pd.Series:
+def fetch_market_history(symbol: str, period: str = "10y", retries: int = 3) -> pd.DataFrame:
     last_exc: Exception | None = None
     for attempt in range(1, retries + 1):
         try:
@@ -203,14 +219,19 @@ def fetch_close_series(symbol: str, period: str = "10y", retries: int = 3) -> pd
                 raise RuntimeError("empty history")
             if "Close" not in df.columns:
                 raise RuntimeError("Close column missing")
-            close = df["Close"].dropna().copy()
-            close.index = pd.to_datetime(close.index)
-            close = close[~close.index.duplicated(keep="last")].sort_index()
-            return close.astype(float)
+            df = df.dropna(subset=["Close"]).copy()
+            df.index = pd.to_datetime(df.index)
+            df = df[~df.index.duplicated(keep="last")].sort_index()
+            return df
         except Exception as exc:  # pragma: no cover - network dependent
             last_exc = exc
             time.sleep(1.2 * attempt)
     raise RuntimeError(f"Failed to fetch {symbol}: {last_exc}")
+
+
+def fetch_close_series(symbol: str, period: str = "10y", retries: int = 3) -> pd.Series:
+    """Backward-compatible close-only accessor used by external callers."""
+    return fetch_market_history(symbol, period=period, retries=retries)["Close"].astype(float)
 
 
 def rsi(series: pd.Series, period: int = 14) -> pd.Series:
@@ -378,8 +399,68 @@ def weekly_zone(value: float | None) -> str:
     return bucket_rsi(value)
 
 
+def classify_daily_state(snapshot: dict) -> str:
+    """Classify the short-term public daily overlay without private inputs."""
+    required = [
+        "close", "daily_ma3", "daily_ma5", "daily_ma7", "daily_rsi6",
+        "daily_return_7d_pct", "recent_high", "recent_low",
+    ]
+    if any(not is_number(snapshot.get(key)) for key in required):
+        return "資料不足"
+
+    close = snapshot["close"]
+    ma3, ma5, ma7 = snapshot["daily_ma3"], snapshot["daily_ma5"], snapshot["daily_ma7"]
+    rsi6 = snapshot["daily_rsi6"]
+    high = snapshot["recent_high"]
+    distance_to_high = (high - close) / high * 100 if high else None
+
+    if close < ma7:
+        return "短線轉弱"
+    if rsi6 >= 80 and distance_to_high is not None and distance_to_high <= 2.0:
+        return "偏多震盪／接近壓力"
+    if close >= ma3 >= ma5 >= ma7 and rsi6 >= 70:
+        return "偏多但未確認突破"
+    if close >= ma5 and snapshot["daily_return_7d_pct"] > 0:
+        return "偏多整理"
+    if close < ma5 and snapshot["daily_return_7d_pct"] < 0:
+        return "偏空整理"
+    return "中性震盪"
+
+
+def _fmt_zone(low: float | None, high: float | None) -> str:
+    if not is_number(low) or not is_number(high):
+        return "N/A"
+    return f"{low:,.2f}–{high:,.2f}"
+
+
+def daily_overlay_from_snapshot(snapshot: dict) -> dict:
+    state = classify_daily_state(snapshot)
+    complete = state != "資料不足"
+    ma5 = snapshot.get("daily_ma5")
+    ma7 = snapshot.get("daily_ma7")
+    recent_low = snapshot.get("recent_low")
+    recent_high = snapshot.get("recent_high")
+    support_values = [v for v in [recent_low, ma7] if is_number(v)]
+    support_low = min(support_values) if support_values else None
+    support_high = max([v for v in [recent_low, ma5] if is_number(v)], default=None)
+    resistance_values = [v for v in [snapshot.get("close"), recent_high] if is_number(v)]
+    resistance_low = min(resistance_values) if resistance_values else None
+    resistance_high = max(resistance_values) if resistance_values else None
+    limitations = ["RSI(6) 僅作短線提示，不等同標準 RSI(14)"]
+    if not is_number(snapshot.get("daily_volume_ratio")):
+        limitations.append("成交量資料不可用")
+    return {
+        "state": state,
+        "support": _fmt_zone(support_low, support_high),
+        "resistance": _fmt_zone(resistance_low, resistance_high),
+        "confidence": "中" if complete else "低",
+        "limitations": "；".join(limitations),
+    }
+
+
 def build_snapshot(spec: dict) -> dict:
-    close = fetch_close_series(spec["symbol"])
+    history = fetch_market_history(spec["symbol"])
+    close = history["Close"].astype(float)
     weekly = close.resample("W-FRI").last().dropna()
 
     d_rsi = rsi(close)
@@ -409,6 +490,23 @@ def build_snapshot(spec: dict) -> dict:
         "weekly_hist": float(w_hist.iloc[-1]),
         "weekly_hist_prev": float(w_hist.iloc[-2]) if len(w_hist.dropna()) > 1 else None,
     }
+    recent = close.tail(7)
+    daily_delta = recent.diff().dropna()
+    gains = daily_delta.clip(lower=0).sum()
+    losses = -daily_delta.clip(upper=0).sum()
+    snapshot["daily_ma3"] = float(close.rolling(3).mean().iloc[-1])
+    snapshot["daily_ma5"] = float(close.rolling(5).mean().iloc[-1])
+    snapshot["daily_ma7"] = float(close.rolling(7).mean().iloc[-1])
+    snapshot["daily_rsi6"] = float(100 - 100 / (1 + gains / losses)) if losses > 0 else 100.0
+    snapshot["daily_return_7d_pct"] = float((recent.iloc[-1] / recent.iloc[0] - 1) * 100) if len(recent) >= 2 else None
+    snapshot["recent_high"] = float(history["High"].tail(7).max()) if "High" in history.columns else None
+    snapshot["recent_low"] = float(history["Low"].tail(7).min()) if "Low" in history.columns else None
+    if "Volume" in history.columns and history["Volume"].tail(7).notna().sum() >= 3:
+        volumes = history["Volume"].tail(7).astype(float)
+        snapshot["daily_volume_ratio"] = float(volumes.iloc[-1] / volumes.mean()) if volumes.mean() else None
+    else:
+        snapshot["daily_volume_ratio"] = None
+    snapshot["daily_overlay"] = daily_overlay_from_snapshot(snapshot)
     snapshot["dist_200w"] = snapshot["close"] - snapshot["weekly_ma200"]
     snapshot["dist_200w_pct"] = ((snapshot["close"] / snapshot["weekly_ma200"]) - 1) * 100 if is_number(snapshot["weekly_ma200"]) else None
     snapshot["stage"] = classify_stage(spec, snapshot)
@@ -422,6 +520,7 @@ def advice_for(spec: dict, stage: str) -> str:
 def render_asset_page(spec: dict, snap: dict, report_date: str) -> str:
     daily_state = f"RSI {fmt_num(snap['daily_rsi'], 1)}，{daily_zone(snap['daily_rsi'])}；{macd_text(snap['daily_macd'], snap['daily_signal'], snap['daily_hist'], snap['daily_hist_prev'])}"
     weekly_state = f"RSI {fmt_num(snap['weekly_rsi'], 1)}，{weekly_zone(snap['weekly_rsi'])}；{macd_text(snap['weekly_macd'], snap['weekly_signal'], snap['weekly_hist'], snap['weekly_hist_prev'])}"
+    overlay = snap["daily_overlay"]
     advice = advice_for(spec, snap["stage"])
     current_tag = f"**階段：{snap['stage']}**"
 
@@ -431,6 +530,9 @@ def render_asset_page(spec: dict, snap: dict, report_date: str) -> str:
         ["20W / 50W / 200W MA", f"{fmt_num(snap['weekly_ma20'])} / {fmt_num(snap['weekly_ma50'])} / {fmt_num(snap['weekly_ma200'])}", "週線均線位置"],
         ["距 200W MA", f"{fmt_num(snap['dist_200w'])} 點（{fmt_pct(snap['dist_200w_pct'])}）", "距離長週線的乖離"],
         ["日線 RSI(14)", f"{fmt_num(snap['daily_rsi'], 1)}，{daily_zone(snap['daily_rsi'])}", "短線動能"],
+        ["日報短線 overlay", overlay["state"], f"信心：{overlay['confidence']}"],
+        ["7 日報酬 / 成交量比", f"{fmt_pct(snap['daily_return_7d_pct'])} / {fmt_num(snap['daily_volume_ratio'], 2)}x", "短線動能與量能；量比為最近 7 日均值比例"],
+        ["短線支撐 / 壓力", f"{overlay['support']} / {overlay['resistance']}", "最近 7 日價格區間與均線"],
         ["日線 MACD(12,26,9)", macd_text(snap['daily_macd'], snap['daily_signal'], snap['daily_hist'], snap['daily_hist_prev']), "日線趨勢"],
         ["週線 RSI(14)", f"{fmt_num(snap['weekly_rsi'], 1)}，{weekly_zone(snap['weekly_rsi'])}", "中週期動能"],
         ["週線 MACD(12,26,9)", macd_text(snap['weekly_macd'], snap['weekly_signal'], snap['weekly_hist'], snap['weekly_hist_prev']), "週線趨勢"],
@@ -462,6 +564,8 @@ date: {report_date}
 
 ## 日線觀察
 - {daily_state}
+- **日報式短線判斷**：{overlay['state']}；支撐約 {overlay['support']}，壓力約 {overlay['resistance']}。
+- **資料限制**：{overlay['limitations']}。
 - 日線目前偏向 {daily_zone(snap['daily_rsi'])} 區，代表短線動能已經有方向，但未必足以單獨當作進場依據。
 - 若日線 MACD 柱狀體持續收斂，通常表示短線壓力正在減輕；若擴大，代表還要再等。
 
@@ -555,7 +659,7 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
   </div>
 </div>"""
     asset_cards = []
-    for key in ["btc", "taiex", "sp500", "ndx", "gold", "us10y", "dxy", "vix"]:
+    for key in ["btc", "taiex", "sp500", "ndx", "qqq", "gold", "us10y", "dxy", "vix"]:
         snap = snaps[key]
         asset_cards.append(
             f"""  <div class=\"thread-card thread-connector\">\n    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">{key.upper() if key != 'us10y' else 'US10Y'}</span><span>{snap['stage']}</span></div>\n    <p>{key.upper() if key != 'us10y' else '美國 10Y'}：{advice_for(next(a for a in ASSETS if a['key']==key), snap['stage'])}</p>\n  </div>"""
@@ -619,12 +723,13 @@ def render_weekly_report(snaps: dict[str, dict], report_date: str) -> str:
             spec["label"],
             snap["stage"],
             f"{fmt_pct(snap['dist_200w_pct'])} / {advice_for(spec, snap['stage'])}",
-            daily_state,
+            f"{snap['daily_overlay']['state']}（信心{snap['daily_overlay']['confidence']}）",
             weekly_state,
+            f"{snap['daily_overlay']['support']} / {snap['daily_overlay']['resistance']}",
             spec["risk"],
         ])
 
-    comparison = table(["標的", "當前階段", "與200W MA距離", "日線狀態", "週線狀態", "風險重點"], stage_rows)
+    comparison = table(["標的", "週期階段", "與200W MA距離", "日報短線狀態", "週線狀態", "短線支撐 / 壓力", "風險重點"], stage_rows)
     stage_map_rows = [[spec["label"], snaps[spec["key"]]["stage"]] for spec in ASSETS]
     stage_map = table(["標的", "階段"], stage_map_rows)
     summary = overall_summary(snaps)
