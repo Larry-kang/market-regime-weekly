@@ -23,6 +23,7 @@ class SiteNavigationTests(unittest.TestCase):
         self.assertIn("weekly/2026-07-27/", html)
         self.assertIn("daily/2026-07-27/", html)
         self.assertNotIn("weekly/2026-07-27.md", html)
+        self.assertNotIn("weekly/index.md", html)
         self.assertNotIn("[最新週報](weekly/index.md)", html)
         self.assertNotIn("去識別化", html)
         self.assertNotIn("公開版", html)
@@ -104,6 +105,14 @@ class SiteNavigationTests(unittest.TestCase):
         self.assertNotIn("## 現金流建議買入區塊", latest)
         self.assertNotIn("| Nasdaq 100 |", latest)
         self.assertIn("| QQQ |", latest)
+        self.assertNotIn("先看結論，再看細節", latest)
+        self.assertNotIn("這一頁放最近一週", latest)
+
+    def test_uiux_styles_are_loaded_and_mobile_safe(self) -> None:
+        css = (ROOT / "docs/stylesheets/extra.css").read_text(encoding="utf-8")
+        self.assertIn("@media (max-width: 768px)", css)
+        self.assertIn("overflow-x: auto", css)
+        self.assertIn(".card-grid", css)
 
     def test_ndx_is_removed_and_qqq_is_retained(self) -> None:
         mkdocs = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")

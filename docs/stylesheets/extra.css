@@ -10,17 +10,21 @@
   --md-primary-fg-color--light: #111111;
   --md-primary-fg-color--dark: #000000;
   --md-accent-fg-color: #111111;
+  --ui-border: rgba(17, 17, 17, 0.1);
+  --ui-muted: #667085;
+  --ui-surface: #ffffff;
+  --ui-surface-soft: #f5f7fa;
 }
 
 body {
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f6f7f9 100%);
 }
 
 .md-header,
 .md-tabs {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  border-bottom: 1px solid var(--ui-border);
 }
 
 .md-main__inner {
@@ -28,7 +32,7 @@ body {
 }
 
 .md-content {
-  max-width: 860px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -39,8 +43,8 @@ body {
 }
 
 .md-typeset h2 {
-  margin-top: 2rem;
-  margin-bottom: 0.85rem;
+  margin-top: 2.2rem;
+  margin-bottom: 0.9rem;
   padding-left: 0.8rem;
   border-left: 4px solid #111111;
   letter-spacing: -0.02em;
@@ -48,6 +52,10 @@ body {
 
 .md-typeset h3 {
   margin-top: 1.5rem;
+}
+
+.md-typeset a {
+  text-underline-offset: 0.18em;
 }
 
 .thread-feed {
@@ -59,10 +67,10 @@ body {
 .thread-card,
 .note-card,
 .callout-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--ui-border);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.045);
 }
 
 .thread-card {
@@ -87,9 +95,10 @@ body {
 .thread-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.65rem;
   margin-bottom: 0.75rem;
-  color: #555555;
+  color: var(--ui-muted);
   font-size: 0.88rem;
 }
 
@@ -110,7 +119,7 @@ body {
   background: #f1f1f1;
   color: #111111;
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 650;
 }
 
 .note-card,
@@ -130,11 +139,11 @@ body {
 }
 
 .card {
-  padding: 1rem 1.05rem;
-  border-radius: 22px;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+  padding: 1.05rem 1.1rem;
+  border-radius: 20px;
+  border: 1px solid var(--ui-border);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.045);
 }
 
 .card h3,
@@ -142,26 +151,39 @@ body {
   margin-top: 0;
 }
 
+.card h3 {
+  margin-bottom: 0.55rem;
+}
+
 .md-typeset table:not([class]) {
-  border-radius: 16px;
-  overflow: hidden;
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
   box-shadow: 0 8px 24px rgba(17, 17, 17, 0.04);
 }
 
 .md-typeset table:not([class]) th {
   background: #111111;
   color: #ffffff;
+  white-space: nowrap;
 }
 
 .md-typeset table:not([class]) td,
 .md-typeset table:not([class]) th {
-  border-color: rgba(17, 17, 17, 0.08);
+  border-color: var(--ui-border);
+  min-width: 7rem;
 }
 
 .md-typeset blockquote {
   border-left-color: #111111;
-  background: rgba(17, 17, 17, 0.03);
-  border-radius: 0 18px 18px 0;
+  background: rgba(17, 17, 17, 0.035);
+  border-radius: 0 16px 16px 0;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 16px;
 }
 
 @media (max-width: 768px) {
@@ -169,10 +191,22 @@ body {
     max-width: 100%;
   }
 
+  .md-typeset h1 {
+    font-size: 2rem;
+  }
+
   .thread-card,
   .note-card,
   .callout-card,
   .card {
-    border-radius: 18px;
+    border-radius: 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .md-typeset table:not([class]) {
+    font-size: 0.82rem;
   }
 }

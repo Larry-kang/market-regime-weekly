@@ -18,27 +18,9 @@
   </div>
 </div>
 
-## 這裡會看到什麼
-<div class="thread-feed">
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新週報</span><span>每週一次的市場階段總結</span></div>
-    <p>每週整理市場總結、標的階段、宏觀判讀與行動摘要。</p>
-  </div>
-
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">標的頁</span><span>BTC / TAIEX / 美股 / 黃金 / 美債 / 美元指數 / VIX</span></div>
-    <p>每個標的都有獨立頁面，現在會提供更完整的網頁閱讀版分析。</p>
-  </div>
-
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">閱讀方式</span><span>先看結論，再看細節</span></div>
-    <p>本站優先顯示判斷結果，讓你能快速掃完；完整內容則收在週報頁與個別標的頁。</p>
-  </div>
-</div>
-
 ## 快速入口
 - <a href="weekly/2026-08-10/">最新週報：2026-08-10 台灣市場週報</a>
-- <a href="weekly/index.md">週報歷史索引</a>
+- <a href="weekly/">週報歷史索引</a>
 
 ## 最新標的狀態
 <div class="thread-feed">

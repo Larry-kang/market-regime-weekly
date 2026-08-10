@@ -584,13 +584,6 @@ def render_weekly_index(report_files: list[Path], latest_report: str, latest_sta
 
     return f"""# 最新週報
 
-<div class="thread-feed">
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新報告</span><span>{latest_report}</span></div>
-    <p>這一頁放最近一週的完整內容，並保留歷史歸檔連結。內容採 Threads 風格，先給結論，再往下展開細節。</p>
-  </div>
-</div>
-
 ## 最新一則
 - [{latest_report} 台灣市場週報]({latest_report}/)
 
@@ -653,27 +646,9 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 
 {latest_cards}
 
-## 這裡會看到什麼
-<div class="thread-feed">
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新週報</span><span>每週一次的市場階段總結</span></div>
-    <p>每週整理市場總結、標的階段、宏觀判讀與行動摘要。</p>
-  </div>
-
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">標的頁</span><span>BTC / TAIEX / 美股 / 黃金 / 美債 / 美元指數 / VIX</span></div>
-    <p>每個標的都有獨立頁面，現在會提供更完整的網頁閱讀版分析。</p>
-  </div>
-
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">閱讀方式</span><span>先看結論，再看細節</span></div>
-    <p>本站優先顯示判斷結果，讓你能快速掃完；完整內容則收在週報頁與個別標的頁。</p>
-  </div>
-</div>
-
 ## 快速入口
 - <a href="weekly/{latest_report}/">最新週報：{latest_report} 台灣市場週報</a>
-- <a href="weekly/index.md">週報歷史索引</a>
+- <a href="weekly/">週報歷史索引</a>
 
 ## 最新標的狀態
 <div class="thread-feed">
@@ -706,13 +681,6 @@ date: {report_date}
 ---
 
 # {report_date} 台灣市場日報
-
-<div class=\"thread-feed\">
-  <div class=\"thread-card thread-connector\">
-    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">每日短線總結</span><span>短線市場觀察</span></div>
-    <p>先看短線狀態，再回到週期階段。</p>
-  </div>
-</div>
 
 ## 市場短線比較
 {table(["標的", "最新收盤", "日報狀態", "7 日報酬", "支撐 / 壓力", "信心"], rows)}
@@ -792,7 +760,7 @@ date: {report_date}
 
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">一句話結論</span><span>先看結論，再看細節</span></div>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">市場總結</span><span>{report_date}</span></div>
     <p>{summary}</p>
   </div>
 
@@ -832,13 +800,6 @@ def render_weekly_index_page(report_files: list[Path], latest_report: str, snaps
     stage_summary = table(["標的", "階段", "判斷結果"], rows)
     archives = "\n".join([f'<a href="{p.stem}/">{p.stem} 台灣市場週報</a><br>' for p in report_files]) if report_files else "- 尚無報告"
     return f"""# 最新週報
-
-<div class="thread-feed">
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新報告</span><span>{latest_report}</span></div>
-    <p>這一頁放最近一週的完整內容，並保留歷史歸檔連結。內容採 Threads 風格，先給結論，再往下展開細節。</p>
-  </div>
-</div>
 
 ## 最新一則
 <a href="{latest_report}/">{latest_report} 台灣市場週報</a>

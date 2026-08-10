@@ -1,12 +1,5 @@
 # 最新週報
 
-<div class="thread-feed">
-  <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新報告</span><span>2026-08-10</span></div>
-    <p>這一頁放最近一週的完整內容，並保留歷史歸檔連結。內容採 Threads 風格，先給結論，再往下展開細節。</p>
-  </div>
-</div>
-
 ## 最新一則
 <a href="2026-08-10/">2026-08-10 台灣市場週報</a>
 
