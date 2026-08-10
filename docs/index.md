@@ -1,12 +1,9 @@
 # 台灣市場週報
 
-> 每週自動生成的公開市場觀察，面向台灣中文讀者。
-
 <div class="card-grid">
   <div class="card">
     <h3>最新更新</h3>
     <p>2026-08-10</p>
-    <p>自動生成</p>
     <p>市場仍偏多，但多數資產已進入過熱或接近過熱，回檔後再布局會比追高舒服。</p>
   </div>
   <div class="card">
@@ -19,18 +16,13 @@
     <p><a href="weekly/2026-08-10/">2026-08-10 台灣市場週報</a></p>
     <p>更新日期：2026-08-10</p>
   </div>
-  <div class="card">
-    <h3>首頁定位</h3>
-    <p>台灣市場週報</p>
-    <p>Threads 風格 / 繁體中文</p>
-  </div>
 </div>
 
 ## 這裡會看到什麼
 <div class="thread-feed">
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新週報</span><span>每週一次的市場階段總結</span></div>
-    <p>每週會固定產出一篇公開版市場週報，包含總結、標的階段、宏觀判讀與行動摘要。</p>
+    <p>每週整理市場總結、標的階段、宏觀判讀與行動摘要。</p>
   </div>
 
   <div class="thread-card thread-connector">
@@ -47,15 +39,6 @@
 ## 快速入口
 - <a href="weekly/2026-08-10/">最新週報：2026-08-10 台灣市場週報</a>
 - <a href="weekly/index.md">週報歷史索引</a>
-- [去識別化與範圍](privacy.md)
-
-## 目前版本
-這是第一版正式公開版，已完成：
-- GitHub Pages 可部署
-- Markdown 內容可讀
-- 站內導覽結構固定
-- 週報可持續累積歸檔
-- 個別標的頁提供詳細版分析
 
 ## 最新標的狀態
 <div class="thread-feed">
@@ -96,6 +79,3 @@
     <p>VIX：觀察波動變化</p>
   </div>
 </div>
-
-## 使用方式
-之後每週只要把新的 Markdown 週報放進 `docs/weekly/`，網站就會自動更新。

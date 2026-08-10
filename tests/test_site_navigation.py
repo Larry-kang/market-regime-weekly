@@ -24,6 +24,9 @@ class SiteNavigationTests(unittest.TestCase):
         self.assertIn("daily/2026-07-27/", html)
         self.assertNotIn("weekly/2026-07-27.md", html)
         self.assertNotIn("[最新週報](weekly/index.md)", html)
+        self.assertNotIn("去識別化", html)
+        self.assertNotIn("公開版", html)
+        self.assertNotIn("自動生成", html)
 
     def test_mkdocs_nav_has_no_hardcoded_weekly_dates(self) -> None:
         mkdocs = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
@@ -73,6 +76,30 @@ class SiteNavigationTests(unittest.TestCase):
 
         self.assertIn(f"{latest_report} 台灣市場週報", homepage)
         self.assertIn(f'href="weekly/{latest_report}/"', homepage)
+
+    def test_checked_in_docs_exclude_internal_disclosures_and_prompts(self) -> None:
+        forbidden = (
+            "去識別化",
+            "公開範圍",
+            "公開版",
+            "私人資產",
+            "槓桿資訊",
+            "槓桿資料",
+            "資料限制",
+            "判讀規則",
+            "現金流建議買入區塊",
+            "本頁由排程自動生成",
+        )
+        for path in (ROOT / "docs").rglob("*.md"):
+            content = path.read_text(encoding="utf-8")
+            for phrase in forbidden:
+                self.assertNotIn(phrase, content, f"{phrase} remains in {path.relative_to(ROOT)}")
+
+    def test_weekly_report_uses_asset_and_macro_action_sections(self) -> None:
+        latest = (ROOT / "docs/weekly/2026-08-10.md").read_text(encoding="utf-8")
+        self.assertIn("## 資產行動摘要", latest)
+        self.assertIn("## 宏觀訊號", latest)
+        self.assertNotIn("## 現金流建議買入區塊", latest)
 
 
 if __name__ == "__main__":

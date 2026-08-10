@@ -568,7 +568,6 @@ date: {report_date}
 ## 日線觀察
 - {daily_state}
 - **日報式短線判斷**：{overlay['state']}；支撐約 {overlay['support']}，壓力約 {overlay['resistance']}。
-- **資料限制**：{overlay['limitations']}。
 - 日線目前偏向 {daily_zone(snap['daily_rsi'])} 區，代表短線動能已經有方向，但未必足以單獨當作進場依據。
 - 若日線 MACD 柱狀體持續收斂，通常表示短線壓力正在減輕；若擴大，代表還要再等。
 
@@ -585,9 +584,6 @@ date: {report_date}
 - **對應動作**：{advice}
 - **風險重點**：{spec['risk']}
 - **我的解讀**：{spec['summary']}
-
-## 週報紀錄
-- [{report_date} 台灣市場週報](../weekly/{report_date}.md)
 """
     return body
 
@@ -645,26 +641,20 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
     top_line = overall_summary(snaps)
     daily_link = f'<p><a href="daily/{latest_daily}/">{latest_daily} 台灣市場日報</a></p>' if latest_daily else "<p>尚無日報</p>"
     latest_cards = f"""<div class=\"card-grid\">
-  <div class=\"card\">
+  <div class="card">
     <h3>最新更新</h3>
     <p>{latest_date}</p>
-    <p>自動生成</p>
     <p>{top_line}</p>
   </div>
-  <div class=\"card\">
+  <div class="card">
     <h3>最新日報</h3>
     {daily_link}
     <p>每日交易日更新</p>
   </div>
-  <div class=\"card\">
+  <div class="card">
     <h3>最新週報</h3>
-    <p><a href=\"weekly/{latest_report}/\">{latest_report} 台灣市場週報</a></p>
+    <p><a href="weekly/{latest_report}/">{latest_report} 台灣市場週報</a></p>
     <p>更新日期：{latest_date}</p>
-  </div>
-  <div class=\"card\">
-    <h3>首頁定位</h3>
-    <p>台灣市場週報</p>
-    <p>Threads 風格 / 繁體中文</p>
   </div>
 </div>"""
     asset_cards = []
@@ -677,15 +667,13 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 
     return f"""# 台灣市場週報
 
-> 每週自動生成的公開市場觀察，面向台灣中文讀者。
-
 {latest_cards}
 
 ## 這裡會看到什麼
 <div class="thread-feed">
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">最新週報</span><span>每週一次的市場階段總結</span></div>
-    <p>每週會固定產出一篇公開版市場週報，包含總結、標的階段、宏觀判讀與行動摘要。</p>
+    <p>每週整理市場總結、標的階段、宏觀判讀與行動摘要。</p>
   </div>
 
   <div class="thread-card thread-connector">
@@ -702,23 +690,11 @@ def render_homepage(latest_date: str, latest_report: str, snaps: dict[str, dict]
 ## 快速入口
 - <a href="weekly/{latest_report}/">最新週報：{latest_report} 台灣市場週報</a>
 - <a href="weekly/index.md">週報歷史索引</a>
-- [去識別化與範圍](privacy.md)
-
-## 目前版本
-這是第一版正式公開版，已完成：
-- GitHub Pages 可部署
-- Markdown 內容可讀
-- 站內導覽結構固定
-- 週報可持續累積歸檔
-- 個別標的頁提供詳細版分析
 
 ## 最新標的狀態
 <div class="thread-feed">
 {asset_cards_text}
 </div>
-
-## 使用方式
-之後每週只要把新的 Markdown 週報放進 `docs/weekly/`，網站就會自動更新。
 """
 
 
@@ -747,12 +723,10 @@ date: {report_date}
 
 # {report_date} 台灣市場日報
 
-> 本頁只使用公開市場資料；資料日期依各市場最近可取得收盤日，非交易日不代表資料遺失。
-
 <div class=\"thread-feed\">
   <div class=\"thread-card thread-connector\">
-    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">每日短線總結</span><span>公開版 daily market report</span></div>
-    <p>先看短線狀態，再回到週期階段；日報不取代週報，也不包含私人資產或槓桿資訊。</p>
+    <div class=\"thread-meta\"><span class=\"thread-avatar\"></span><span class=\"thread-badge\">每日短線總結</span><span>短線市場觀察</span></div>
+    <p>先看短線狀態，再回到週期階段。</p>
   </div>
 </div>
 
@@ -763,32 +737,12 @@ date: {report_date}
 <div class=\"thread-feed\">
 {card_text}
 </div>
-
-## 判讀規則
-
-- 日報 overlay 使用最近 7 個可用交易日、3／5／7 日均線、短樣本 RSI(6)、近期高低點與成交量比。
-- 「接近壓力」不等於確認突破；突破仍需後續收盤與量價確認。
-- 短樣本 RSI 只作為短線提示，不單獨作為交易訊號。
-- 完整週期階段請參考[最新週報](../weekly/index.md)。
-
-## 資料限制
-
-- 資料來源為 Yahoo Finance 公開行情介面，透過 yfinance 取得。
-- 各市場交易時間不同，報告時間可能對應不同的最新收盤日。
-- 休市、延遲或資料缺漏時保留 N/A，不人工補值。
-
-## 相關頁面
-
-- [最新週報](../weekly/{report_date}.md)
-- [每日報告索引](index.md)
 """
 
 
 def render_daily_index_page(report_files: list[Path], latest_report: str) -> str:
     archives = "\n".join([f'<a href="{p.stem}/">{p.stem} 台灣市場日報</a><br>' for p in report_files]) if report_files else "- 尚無報告"
     return f"""# 最新日報
-
-> 公開版每日市場短線觀察；不包含私人資產或槓桿資料。
 
 ## 最新一則
 
@@ -797,8 +751,6 @@ def render_daily_index_page(report_files: list[Path], latest_report: str) -> str
 ## 歷史歸檔
 
 {archives}
-
-> 每個交易日由 GitHub Actions 自動更新；各市場以最近可取得的公開收盤資料為準。
 """
 
 
@@ -831,11 +783,12 @@ def render_weekly_report(snaps: dict[str, dict], report_date: str) -> str:
     dxy_stage = snaps["dxy"]["stage"]
     vix_stage = snaps["vix"]["stage"]
     gold_stage = snaps["gold"]["stage"]
-    cash_flow_lines = "\n".join(
-        [f"{i + 1}. {spec['label']}：{advice_for(spec, snaps[spec['key']]['stage'])}" for i, spec in enumerate(ASSETS)]
+    investable_keys = {"btc", "taiex", "sp500", "ndx", "qqq", "gold"}
+    asset_action_lines = "\n".join(
+        [f"- **{spec['label']}**：{snaps[spec['key']]['stage']}，{advice_for(spec, snaps[spec['key']]['stage'])}。" for spec in ASSETS if spec["key"] in investable_keys]
     )
-    action_lines = "\n".join(
-        [f"- **{spec['label']}**：{snaps[spec['key']]['stage']}，{advice_for(spec, snaps[spec['key']]['stage'])}。" for spec in ASSETS]
+    macro_action_lines = "\n".join(
+        [f"- **{spec['label']}**：{snaps[spec['key']]['stage']}，{advice_for(spec, snaps[spec['key']]['stage'])}。" for spec in ASSETS if spec["key"] not in investable_keys]
     )
 
     asset_cards = []
@@ -882,14 +835,11 @@ date: {report_date}
 {asset_cards_text}
 </div>
 
-## 現金流建議買入區塊
-{cash_flow_lines}
+## 資產行動摘要
+{asset_action_lines}
 
-## 行動摘要
-{action_lines}
-
-## 備註
-本頁由排程自動生成，未來每週更新。
+## 宏觀訊號
+{macro_action_lines}
 """
 
 
@@ -914,8 +864,6 @@ def render_weekly_index_page(report_files: list[Path], latest_report: str, snaps
 
 ## 歷史歸檔
 {archives}
-
-> 未來每週產出的報告都會放在這個資料夾，並以日期命名。
 """
 
 
