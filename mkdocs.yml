@@ -1,5 +1,5 @@
 site_name: 台灣市場週報
-site_description: 每日與每週自動生成的市場報告，提供繁體中文閱讀。
+site_description: 每日與每週市場報告，提供繁體中文閱讀。
 site_url: https://larry-kang.github.io/market-regime-weekly/
 repo_url: https://github.com/Larry-kang/market-regime-weekly
 edit_uri: edit/main/docs/
