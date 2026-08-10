@@ -52,9 +52,15 @@ class SiteNavigationTests(unittest.TestCase):
 
     def test_checked_in_homepage_exposes_current_report(self) -> None:
         homepage = (ROOT / "docs/index.md").read_text(encoding="utf-8")
+        report_dates = sorted(
+            report.stem
+            for report in (ROOT / "docs/weekly").glob("*.md")
+            if re.fullmatch(r"\d{4}-\d{2}-\d{2}", report.stem)
+        )
+        latest_report = report_dates[-1]
 
-        self.assertIn("2026-07-27 台灣市場週報", homepage)
-        self.assertIn('href="weekly/2026-07-27/"', homepage)
+        self.assertIn(f"{latest_report} 台灣市場週報", homepage)
+        self.assertIn(f'href="weekly/{latest_report}/"', homepage)
 
 
 if __name__ == "__main__":

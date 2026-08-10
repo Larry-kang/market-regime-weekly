@@ -5,14 +5,14 @@
 <div class="card-grid">
   <div class="card">
     <h3>最新更新</h3>
-    <p>2026-08-03</p>
+    <p>2026-08-10</p>
     <p>自動生成</p>
     <p>市場仍偏多，但多數資產已進入過熱或接近過熱，回檔後再布局會比追高舒服。</p>
   </div>
   <div class="card">
     <h3>最新週報</h3>
-    <p><a href="weekly/2026-08-03/">2026-08-03 台灣市場週報</a></p>
-    <p>更新日期：2026-08-03</p>
+    <p><a href="weekly/2026-08-10/">2026-08-10 台灣市場週報</a></p>
+    <p>更新日期：2026-08-10</p>
   </div>
   <div class="card">
     <h3>首頁定位</h3>
@@ -40,7 +40,7 @@
 </div>
 
 ## 快速入口
-- <a href="weekly/2026-08-03/">最新週報：2026-08-03 台灣市場週報</a>
+- <a href="weekly/2026-08-10/">最新週報：2026-08-10 台灣市場週報</a>
 - <a href="weekly/index.md">週報歷史索引</a>
 - [去識別化與範圍](privacy.md)
 
@@ -55,8 +55,8 @@
 ## 最新標的狀態
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>過渡</span></div>
-    <p>BTC：維持 DCA，等待更明確的長均線確認</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>復甦</span></div>
+    <p>BTC：可續投，保留彈性</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">TAIEX</span><span>過熱</span></div>
