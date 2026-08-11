@@ -5,6 +5,9 @@ on:
     # 14:05 Taiwan time on weekdays; after the Taiwan cash market close.
     - cron: '5 6 * * 1-5'
   workflow_dispatch:
+  workflow_run:
+    workflows: ["update-market-data"]
+    types: [completed]
 
 permissions:
   contents: write
@@ -15,6 +18,10 @@ concurrency:
 
 jobs:
   generate:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
