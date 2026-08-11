@@ -6,11 +6,11 @@
 
 ## 公開範圍
 
-本 repo 只處理公開市場資訊，不讀取 Vault、GAS、個人資產、借貸／LTV、私有交易規則、API key、token、密碼或其他秘密。
+本 repo 只處理公開市場資訊，資料與報告均來自公開市場行情及公開資料來源。
 
 ## 目前資料來源
 
-`python scripts/generate_site.py` 使用 `yfinance` 從 Yahoo Finance 公開行情介面取得最近 10 年日資料：
+`python scripts/generate_site.py` 使用 `yfinance` 從 Yahoo Finance 公開行情介面取得最近 10 年日資料。歷史資料會保存在 `data/market_history/`，作為可重現的本地基準；後續執行只會重新抓取最近 45 天並合併校正，避免每次重複下載完整歷史。GitHub Actions 同時使用 pip 與市場歷史資料 cache 加速執行，但 cache 被淘汰時仍可由 repo 內資料正常重建。
 
 | 標的 | Ticker | 用途 |
 |---|---|---|

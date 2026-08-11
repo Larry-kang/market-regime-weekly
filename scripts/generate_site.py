@@ -4,9 +4,10 @@ import argparse
 import math
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
 
 import pandas as pd
 import yfinance as yf
@@ -16,6 +17,10 @@ DOCS = ROOT / "docs"
 DAILY_DIR = DOCS / "daily"
 MARKET_DIR = DOCS / "market"
 WEEKLY_DIR = DOCS / "weekly"
+HISTORY_DIR = ROOT / "data" / "market_history"
+CACHE_LOOKBACK_DAYS = 45
+MIN_CACHE_ROWS = 1000
+MIN_CACHE_SPAN_DAYS = 1400
 TZ = ZoneInfo("Asia/Taipei")
 TODAY = datetime.now(TZ).strftime("%Y-%m-%d")
 
@@ -197,23 +202,96 @@ def table(headers: list[str], rows: list[list[str]]) -> str:
     return "\n".join([head, sep, *body])
 
 
-def fetch_market_history(symbol: str, period: str = "10y", retries: int = 3) -> pd.DataFrame:
+def _cache_path(symbol: str, cache_dir: Path = HISTORY_DIR) -> Path:
+    safe_symbol = symbol.replace("/", "_").replace("^", "_").replace("=", "_")
+    return cache_dir / f"{safe_symbol}.csv.gz"
+
+
+def _normalize_history(df: pd.DataFrame) -> pd.DataFrame:
+    if df.empty:
+        return df
+    normalized = df.copy()
+    normalized.index = pd.to_datetime(normalized.index)
+    if getattr(normalized.index, "tz", None) is not None:
+        normalized.index = normalized.index.tz_localize(None)
+    normalized = normalized[~normalized.index.duplicated(keep="last")].sort_index()
+    if "Close" not in normalized.columns:
+        raise RuntimeError("Close column missing")
+    return normalized.dropna(subset=["Close"])
+
+
+def load_cached_history(symbol: str, cache_dir: Path = HISTORY_DIR) -> pd.DataFrame:
+    path = _cache_path(symbol, cache_dir)
+    if not path.exists():
+        return pd.DataFrame()
+    cached = pd.read_csv(path, index_col="Date", parse_dates=["Date"])
+    cached.index.name = None
+    return _normalize_history(cached)
+
+
+def save_cached_history(symbol: str, df: pd.DataFrame, cache_dir: Path = HISTORY_DIR) -> None:
+    path = _cache_path(symbol, cache_dir)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    _normalize_history(df).to_csv(path, index_label="Date", compression="gzip")
+
+
+def cache_has_sufficient_history(df: pd.DataFrame) -> bool:
+    if df.empty or len(df) < MIN_CACHE_ROWS:
+        return False
+    span = _normalize_history(df).index[-1] - _normalize_history(df).index[0]
+    return span >= pd.Timedelta(days=MIN_CACHE_SPAN_DAYS)
+
+
+def _download_market_history(
+    symbol: str,
+    period: str,
+    retries: int,
+    start: str | None = None,
+    end: str | None = None,
+) -> pd.DataFrame:
     last_exc: Exception | None = None
     for attempt in range(1, retries + 1):
         try:
-            df = yf.Ticker(symbol).history(period=period, interval="1d", auto_adjust=False, actions=False)
+            kwargs = {"interval": "1d", "auto_adjust": False, "actions": False}
+            if start is None:
+                kwargs["period"] = period
+            else:
+                kwargs["start"] = start
+                kwargs["end"] = end
+            df = yf.Ticker(symbol).history(**kwargs)
+            df = _normalize_history(df)
             if df.empty:
                 raise RuntimeError("empty history")
-            if "Close" not in df.columns:
-                raise RuntimeError("Close column missing")
-            df = df.dropna(subset=["Close"]).copy()
-            df.index = pd.to_datetime(df.index)
-            df = df[~df.index.duplicated(keep="last")].sort_index()
             return df
         except Exception as exc:  # pragma: no cover - network dependent
             last_exc = exc
             time.sleep(1.2 * attempt)
     raise RuntimeError(f"Failed to fetch {symbol}: {last_exc}")
+
+
+def fetch_market_history(
+    symbol: str,
+    period: str = "10y",
+    retries: int = 3,
+    cache_dir: Path = HISTORY_DIR,
+    cache_lookback_days: int = CACHE_LOOKBACK_DAYS,
+) -> pd.DataFrame:
+    cached = load_cached_history(symbol, cache_dir=cache_dir)
+    if not cache_has_sufficient_history(cached):
+        fresh = _download_market_history(symbol, period=period, retries=retries)
+    else:
+        start = cached.index[-1] - pd.Timedelta(days=cache_lookback_days)
+        end = datetime.now(TZ).date() + timedelta(days=1)
+        fresh = _download_market_history(
+            symbol,
+            period=period,
+            retries=retries,
+            start=start.date().isoformat(),
+            end=end.isoformat(),
+        )
+    combined = _normalize_history(pd.concat([cached, fresh]))
+    save_cached_history(symbol, combined, cache_dir=cache_dir)
+    return combined
 
 
 def fetch_close_series(symbol: str, period: str = "10y", retries: int = 3) -> pd.Series:
