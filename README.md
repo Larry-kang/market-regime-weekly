@@ -10,7 +10,7 @@
 
 ## 目前資料來源
 
-`python scripts/generate_site.py` 使用 `yfinance` 從 Yahoo Finance 公開行情介面取得最近 10 年日資料。歷史資料會保存在 `data/market_history/`，作為可重現的本地基準；後續執行只會重新抓取最近 45 天並合併校正，避免每次重複下載完整歷史。GitHub Actions 同時使用 pip 與市場歷史資料 cache 加速執行，但 cache 被淘汰時仍可由 repo 內資料正常重建。
+`python scripts/update_market_data.py` 使用 `yfinance` 從 Yahoo Finance 公開行情介面更新最近價格。第一次執行會下載最近 10 年日資料；後續執行只會重新抓取最近 45 天並合併校正，資料保存在 `data/market_history/` 作為可重現的本地基準。報告生成器使用 `--cached-only` 讀取這些資料，不在產報告時重新連線抓價。GitHub Actions 同時使用 pip 與市場歷史資料 cache 加速執行，但 cache 被淘汰時仍可由 repo 內資料正常重建。
 
 | 標的 | Ticker | 用途 |
 |---|---|---|
@@ -36,18 +36,20 @@ Yahoo Finance 是資料分發來源；不同標的可能有交易所延遲、休
 
 ## 報告產出與部署
 
-- **日報**：每週一至週五台灣時間約 14:05 產出 `docs/daily/YYYY-MM-DD.md`，以各市場最近可取得的公開收盤資料為準。
-- **週報**：每週一台灣時間約 09:05 產出 `docs/weekly/YYYY-MM-DD.md`。
-- 兩個 workflow 共用 concurrency，避免同時 commit／push 造成衝突。
-- GitHub Pages 會在文件 push 後自動建置發布；兩者都保留 `workflow_dispatch` 手動執行入口。
+- **價格資料更新**：獨立的 `update-market-data` workflow 於週一至週五台灣時間約 13:30 更新 `data/market_history/`，有變更才 commit／push。
+- **日報**：每週一至週五台灣時間約 14:05 產出 `docs/daily/YYYY-MM-DD.md`，使用價格更新 workflow 已寫入 repo 的資料。
+- **週報**：每週一台灣時間約 09:05 產出 `docs/weekly/YYYY-MM-DD.md`，使用 repo 內歷史資料。
+- 價格更新、日報與週報各自保留 `workflow_dispatch` 手動執行入口；報告 workflow 使用 `--cached-only`，不在產報告時重新抓價。
+- GitHub Pages 會在資料或文件 push 後自動建置發布；各 workflow 有獨立 concurrency，避免自身重複執行或同時 push。
 
 ## 本地驗證
 
 ```bash
 python -m unittest discover -s tests -p "test_*.py"
-python scripts/generate_site.py --mode weekly
+python scripts/update_market_data.py
+python scripts/generate_site.py --mode weekly --cached-only
 python scripts/validate_generated_site.py
-python scripts/generate_site.py --mode daily
+python scripts/generate_site.py --mode daily --cached-only
 python scripts/validate_generated_site.py "$(TZ=Asia/Taipei date +%F)" . daily
 mkdocs build --strict
 ```

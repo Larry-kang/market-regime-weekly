@@ -523,8 +523,16 @@ def daily_overlay_from_snapshot(snapshot: dict) -> dict:
     }
 
 
-def build_snapshot(spec: dict) -> dict:
-    history = fetch_market_history(spec["symbol"])
+def build_snapshot(spec: dict, refresh_history: bool = True) -> dict:
+    if refresh_history:
+        history = fetch_market_history(spec["symbol"])
+    else:
+        history = load_cached_history(spec["symbol"])
+        if not cache_has_sufficient_history(history):
+            raise RuntimeError(
+                f"Insufficient cached history for {spec['symbol']}; "
+                "run update_market_data.py first"
+            )
     close = history["Close"].astype(float)
     weekly = close.resample("W-FRI").last().dropna()
 
@@ -897,13 +905,18 @@ def write(path: Path, content: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate public market reports")
     parser.add_argument("--mode", choices=["daily", "weekly"], default="weekly")
+    parser.add_argument(
+        "--cached-only",
+        action="store_true",
+        help="Read durable market history without downloading prices",
+    )
     args = parser.parse_args()
     ensure_dirs()
 
     snapshots: dict[str, dict] = {}
     for spec in ASSETS:
         print(f"[fetch] {spec['label']} ({spec['symbol']})")
-        snapshots[spec["key"]] = build_snapshot(spec)
+        snapshots[spec["key"]] = build_snapshot(spec, refresh_history=not args.cached_only)
         snapshots[spec["key"]]["report_label"] = spec["label"]
 
     report_date = TODAY

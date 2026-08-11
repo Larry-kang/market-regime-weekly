@@ -43,7 +43,7 @@ jobs:
         run: python -m unittest discover -s tests -p "test_*.py"
 
       - name: Generate weekly reports
-        run: python scripts/generate_site.py --mode weekly
+        run: python scripts/generate_site.py --mode weekly --cached-only
 
       - name: Validate generated site
         run: python scripts/validate_generated_site.py "$(TZ=Asia/Taipei date +%F)" . weekly

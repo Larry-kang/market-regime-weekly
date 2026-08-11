@@ -1,20 +1,26 @@
-name: generate-daily
+name: update-market-data
 
 on:
   schedule:
-    # 14:05 Taiwan time on weekdays; after the Taiwan cash market close.
-    - cron: '5 6 * * 1-5'
+    # 13:30 Taiwan time on weekdays; before the 14:05 daily report.
+    - cron: '30 5 * * 1-5'
   workflow_dispatch:
+    inputs:
+      full_rebuild:
+        description: 'Discard existing history and download full history'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
 
 concurrency:
-  group: generate-public-reports
-  cancel-in-progress: true
+  group: market-data-update
+  cancel-in-progress: false
 
 jobs:
-  generate:
+  update:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,20 +49,24 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s tests -p "test_*.py"
 
-      - name: Generate daily reports
-        run: python scripts/generate_site.py --mode daily --cached-only
-
-      - name: Validate generated site
-        run: python scripts/validate_generated_site.py "$(TZ=Asia/Taipei date +%F)" . daily
-
-      - name: Commit changes
+      - name: Update market history
+        env:
+          FULL_REBUILD: ${{ inputs.full_rebuild || 'false' }}
         run: |
-          if git diff --quiet; then
-            echo "No changes to commit"
+          if [ "$FULL_REBUILD" = "true" ]; then
+            python scripts/update_market_data.py --full-rebuild
+          else
+            python scripts/update_market_data.py
+          fi
+
+      - name: Commit updated market history
+        run: |
+          if git diff --quiet -- data/market_history; then
+            echo "No market history changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/market_history docs README.md
-          git commit -m "chore: generate daily market reports"
+          git add data/market_history
+          git commit -m "chore: update market price data"
           git push
