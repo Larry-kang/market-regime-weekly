@@ -8,7 +8,7 @@
   </div>
   <div class="card">
     <h3>最新日報</h3>
-    <p><a href="daily/2026-08-21/">2026-08-21 台灣市場日報</a></p>
+    <p><a href="daily/2026-08-24/">2026-08-24 台灣市場日報</a></p>
     <p>每日交易日更新</p>
   </div>
   <div class="card">
