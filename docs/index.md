@@ -8,7 +8,7 @@
   </div>
   <div class="card">
     <h3>最新日報</h3>
-    <p><a href="daily/2026-09-04/">2026-09-04 台灣市場日報</a></p>
+    <p><a href="daily/2026-09-07/">2026-09-07 台灣市場日報</a></p>
     <p>每日交易日更新</p>
   </div>
   <div class="card">
@@ -25,8 +25,8 @@
 ## 最新標的狀態
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>過熱</span></div>
-    <p>BTC：放慢節奏，等回檔</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>復甦</span></div>
+    <p>BTC：可續投，保留彈性</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">TAIEX</span><span>過熱</span></div>
