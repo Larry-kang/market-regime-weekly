@@ -1,6 +1,6 @@
 ---
 title: TAIEX 階段分析
-date: 2026-09-04
+date: 2026-09-07
 ---
 
 # TAIEX
