@@ -1,0 +1,446 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "key": "btc",
+      "label": "BTC",
+      "symbol": "BTC-USD",
+      "category": "crypto",
+      "required": true,
+      "roles": [
+        "core",
+        "finance",
+        "sar"
+      ]
+    },
+    {
+      "key": "eth",
+      "label": "ETH",
+      "symbol": "ETH-USD",
+      "category": "crypto",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar"
+      ]
+    },
+    {
+      "key": "taiex",
+      "label": "TAIEX",
+      "symbol": "^TWII",
+      "category": "benchmark",
+      "required": true,
+      "roles": [
+        "public_report",
+        "stock"
+      ]
+    },
+    {
+      "key": "sp500",
+      "label": "S&P 500",
+      "symbol": "^GSPC",
+      "category": "benchmark",
+      "required": true,
+      "roles": [
+        "public_report",
+        "macro"
+      ]
+    },
+    {
+      "key": "nasdaq100",
+      "label": "Nasdaq 100",
+      "symbol": "^NDX",
+      "category": "benchmark",
+      "required": false,
+      "roles": [
+        "stock",
+        "sar"
+      ]
+    },
+    {
+      "key": "qqq",
+      "label": "QQQ",
+      "symbol": "QQQ",
+      "category": "benchmark_etf",
+      "required": true,
+      "roles": [
+        "public_report",
+        "finance",
+        "sar"
+      ]
+    },
+    {
+      "key": "gold",
+      "label": "Gold",
+      "symbol": "GC=F",
+      "category": "macro",
+      "required": true,
+      "roles": [
+        "public_report",
+        "macro"
+      ]
+    },
+    {
+      "key": "silver",
+      "label": "Silver",
+      "symbol": "SI=F",
+      "category": "macro",
+      "required": false,
+      "roles": [
+        "macro"
+      ]
+    },
+    {
+      "key": "us10y",
+      "label": "US 10Y",
+      "symbol": "^TNX",
+      "category": "macro",
+      "required": true,
+      "roles": [
+        "public_report",
+        "macro"
+      ]
+    },
+    {
+      "key": "dxy",
+      "label": "DXY",
+      "symbol": "DX-Y.NYB",
+      "category": "macro",
+      "required": true,
+      "roles": [
+        "public_report",
+        "macro"
+      ]
+    },
+    {
+      "key": "vix",
+      "label": "VIX",
+      "symbol": "^VIX",
+      "category": "macro",
+      "required": true,
+      "roles": [
+        "public_report",
+        "macro",
+        "risk"
+      ]
+    },
+    {
+      "key": "usd_twd",
+      "label": "USD/TWD",
+      "symbol": "TWD=X",
+      "category": "fx",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar"
+      ]
+    },
+    {
+      "key": "ibit",
+      "label": "IBIT",
+      "symbol": "IBIT",
+      "category": "btc_equity",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar",
+        "position"
+      ]
+    },
+    {
+      "key": "mstr",
+      "label": "MSTR",
+      "symbol": "MSTR",
+      "category": "btc_equity",
+      "required": true,
+      "roles": [
+        "sar",
+        "rotation"
+      ]
+    },
+    {
+      "key": "bitu",
+      "label": "BITU",
+      "symbol": "BITU",
+      "category": "btc_leverage",
+      "required": false,
+      "roles": [
+        "sar",
+        "tactical"
+      ]
+    },
+    {
+      "key": "bitx",
+      "label": "BITX",
+      "symbol": "BITX",
+      "category": "btc_leverage",
+      "required": false,
+      "roles": [
+        "sar",
+        "tactical"
+      ]
+    },
+    {
+      "key": "btci",
+      "label": "BTCI",
+      "symbol": "BTCI",
+      "category": "btc_income",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "strc",
+      "label": "STRC",
+      "symbol": "STRC",
+      "category": "strategy_security",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "strd",
+      "label": "STRD",
+      "symbol": "STRD",
+      "category": "strategy_security",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "strf",
+      "label": "STRF",
+      "symbol": "STRF",
+      "category": "strategy_security",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "strk",
+      "label": "STRK",
+      "symbol": "STRK",
+      "category": "strategy_security",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "tw0050",
+      "label": "0050",
+      "symbol": "0050.TW",
+      "category": "tw_etf",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar",
+        "benchmark"
+      ]
+    },
+    {
+      "key": "tw0056",
+      "label": "0056",
+      "symbol": "0056.TW",
+      "category": "tw_etf",
+      "required": false,
+      "roles": [
+        "finance",
+        "income"
+      ]
+    },
+    {
+      "key": "tw00713",
+      "label": "00713",
+      "symbol": "00713.TW",
+      "category": "tw_etf",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar",
+        "position"
+      ]
+    },
+    {
+      "key": "tw00878",
+      "label": "00878",
+      "symbol": "00878.TW",
+      "category": "tw_etf",
+      "required": false,
+      "roles": [
+        "finance",
+        "income"
+      ]
+    },
+    {
+      "key": "tw00662",
+      "label": "00662",
+      "symbol": "00662.TW",
+      "category": "tw_etf",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar",
+        "position"
+      ]
+    },
+    {
+      "key": "tw00670l",
+      "label": "00670L",
+      "symbol": "00670L.TW",
+      "category": "tw_leveraged_etf",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar",
+        "position"
+      ]
+    },
+    {
+      "key": "tw00685l",
+      "label": "00685L",
+      "symbol": "00685L.TW",
+      "category": "tw_leveraged_etf",
+      "required": true,
+      "roles": [
+        "finance",
+        "sar",
+        "position"
+      ]
+    },
+    {
+      "key": "boxx",
+      "label": "BOXX",
+      "symbol": "BOXX",
+      "category": "cash_etf",
+      "required": false,
+      "roles": [
+        "finance",
+        "liquidity"
+      ]
+    },
+    {
+      "key": "qqqi",
+      "label": "QQQI",
+      "symbol": "QQQI",
+      "category": "income_etf",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "spyi",
+      "label": "SPYI",
+      "symbol": "SPYI",
+      "category": "income_etf",
+      "required": false,
+      "roles": [
+        "sar",
+        "income"
+      ]
+    },
+    {
+      "key": "spcx",
+      "label": "SPCX",
+      "symbol": "SPCX",
+      "category": "special_etf",
+      "required": false,
+      "roles": [
+        "sar"
+      ]
+    },
+    {
+      "key": "nvda",
+      "label": "NVDA",
+      "symbol": "NVDA",
+      "category": "equity",
+      "required": false,
+      "roles": [
+        "sar",
+        "technology"
+      ]
+    },
+    {
+      "key": "tsm",
+      "label": "TSMC ADR",
+      "symbol": "TSM",
+      "category": "equity",
+      "required": false,
+      "roles": [
+        "sar",
+        "technology"
+      ]
+    },
+    {
+      "key": "tsla",
+      "label": "TSLA",
+      "symbol": "TSLA",
+      "category": "equity",
+      "required": false,
+      "roles": [
+        "sar",
+        "technology"
+      ]
+    },
+    {
+      "key": "smh",
+      "label": "SMH",
+      "symbol": "SMH",
+      "category": "sector_etf",
+      "required": false,
+      "roles": [
+        "sar",
+        "semiconductor"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "key": "mstr_vs_ibit",
+      "left": "mstr",
+      "right": "ibit",
+      "note": "US-session BTC equity beta proxy"
+    },
+    {
+      "key": "mstr_vs_btc",
+      "left": "mstr",
+      "right": "btc",
+      "note": "Calendar-date comparison; BTC trades 24/7"
+    },
+    {
+      "key": "bitu_vs_ibit",
+      "left": "bitu",
+      "right": "ibit",
+      "note": "Daily leveraged BTC ETF versus spot ETF proxy"
+    },
+    {
+      "key": "bitx_vs_ibit",
+      "left": "bitx",
+      "right": "ibit",
+      "note": "Daily leveraged BTC ETF versus spot ETF proxy"
+    },
+    {
+      "key": "tw00670l_vs_tw00662",
+      "left": "tw00670l",
+      "right": "tw00662",
+      "note": "Taiwan-listed leveraged Nasdaq ETF versus 1x Nasdaq ETF"
+    },
+    {
+      "key": "tw00685l_vs_tw0050",
+      "left": "tw00685l",
+      "right": "tw0050",
+      "note": "Taiwan-listed leveraged market ETF versus broad-market ETF"
+    }
+  ]
+}
