@@ -2,12 +2,14 @@ name: update-market-data
 
 on:
   schedule:
-    # 13:30 Taiwan time on weekdays; before the 14:05 daily report.
-    - cron: '30 5 * * 1-5'
+    # 08:20 Taiwan time every day: after BTC UTC daily close and US market close.
+    - cron: '20 0 * * *'
+    # 13:50 Taiwan time on weekdays: refresh Taiwan market after local close.
+    - cron: '50 5 * * 1-5'
   workflow_dispatch:
     inputs:
       full_rebuild:
-        description: 'Discard existing history and download full history'
+        description: 'Discard existing history and download full available history'
         required: false
         default: false
         type: boolean
@@ -32,7 +34,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: data/market_history
-          key: market-history-v1-${{ runner.os }}-${{ hashFiles('data/market_history/*.csv.gz') }}
+          key: market-history-v2-${{ runner.os }}-${{ hashFiles('data/market_history/*.csv.gz') }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -49,7 +51,7 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s tests -p "test_*.py"
 
-      - name: Update market history
+      - name: Update shared market data
         env:
           FULL_REBUILD: ${{ inputs.full_rebuild || 'false' }}
         run: |
@@ -59,14 +61,14 @@ jobs:
             python scripts/update_market_data.py
           fi
 
-      - name: Commit updated market history
+      - name: Commit updated market data
         run: |
-          if git diff --quiet -- data/market_history; then
-            echo "No market history changes"
+          if git diff --quiet -- data/market_history docs/data; then
+            echo "No market data changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/market_history
-          git commit -m "chore: update market price data"
+          git add data/market_history docs/data
+          git commit -m "chore: update shared market data"
           git push
