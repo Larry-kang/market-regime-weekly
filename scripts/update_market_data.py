@@ -4,6 +4,8 @@ import argparse
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import pandas as pd
+
 try:
     from .generate_site import (
         CACHE_LOOKBACK_DAYS,
@@ -39,7 +41,7 @@ def refresh_market_history(
     period: str = "10y",
     retries: int = 3,
     cache_lookback_days: int = CACHE_LOOKBACK_DAYS,
-):
+) -> pd.DataFrame:
     """Refresh one daily history cache.
 
     Any non-empty cache is refreshed incrementally. This is intentional: newer
@@ -65,9 +67,7 @@ def refresh_market_history(
             end=end.isoformat(),
         )
 
-    combined = _normalize_history(
-        __import__("pandas").concat([cached, fresh])
-    )
+    combined = _normalize_history(pd.concat([cached, fresh]))
     save_cached_history(symbol, combined, cache_dir=cache_dir)
     return combined
 
