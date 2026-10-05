@@ -3,8 +3,8 @@
 <div class="card-grid">
   <div class="card">
     <h3>最新更新</h3>
-    <p>2026-10-02</p>
-    <p>市場仍偏多，但BTC、TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。 部分標的資料落後：S&P 500（2026-10-01）、QQQ（2026-10-01）、美國 10Y（2026-10-01）。</p>
+    <p>2026-10-05</p>
+    <p>市場仍偏多，但BTC、TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。 部分標的資料落後：S&P 500（2026-10-02）、QQQ（2026-10-02）、美國 10Y（2026-10-02）、VIX（2026-10-02）。</p>
   </div>
   <div class="card">
     <h3>最新日報</h3>
@@ -13,13 +13,13 @@
   </div>
   <div class="card">
     <h3>最新週報</h3>
-    <p><a href="weekly/2026-09-28/">2026-09-28 台灣市場週報</a></p>
-    <p>更新日期：2026-10-02</p>
+    <p><a href="weekly/2026-10-05/">2026-10-05 台灣市場週報</a></p>
+    <p>更新日期：2026-10-05</p>
   </div>
 </div>
 
 ## 快速入口
-- <a href="weekly/2026-09-28/">最新週報：2026-09-28 台灣市場週報</a>
+- <a href="weekly/2026-10-05/">最新週報：2026-10-05 台灣市場週報</a>
 - <a href="weekly/">週報歷史索引</a>
 - <a href="daily/2026-10-02/">最新日報：2026-10-02 台灣市場日報</a>
 - <a href="daily/">日報歷史索引</a>
@@ -51,8 +51,8 @@
     <p><a href="market/us10y/">美國 10Y</a>：利率壓力緩和時可提高風險偏好</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">DXY</span><span>過渡</span></div>
-    <p><a href="market/dxy/">DXY</a>：暫不追</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">DXY</span><span>復甦</span></div>
+    <p><a href="market/dxy/">DXY</a>：若美元回落可提高風險偏好</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>過渡</span></div>
