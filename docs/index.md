@@ -4,11 +4,11 @@
   <div class="card">
     <h3>最新更新</h3>
     <p>2026-10-12</p>
-    <p>市場仍偏多，但BTC、TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。 部分標的資料落後：S&P 500（2026-10-09）、QQQ（2026-10-09）、美國 10Y（2026-10-09）、VIX（2026-10-09）。</p>
+    <p>市場仍偏多，但TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。</p>
   </div>
   <div class="card">
     <h3>最新日報</h3>
-    <p><a href="daily/2026-10-09/">2026-10-09 台灣市場日報</a></p>
+    <p><a href="daily/2026-10-12/">2026-10-12 台灣市場日報</a></p>
     <p>每日交易日更新</p>
   </div>
   <div class="card">
@@ -21,14 +21,14 @@
 ## 快速入口
 - <a href="weekly/2026-10-12/">最新週報：2026-10-12 台灣市場週報</a>
 - <a href="weekly/">週報歷史索引</a>
-- <a href="daily/2026-10-09/">最新日報：2026-10-09 台灣市場日報</a>
+- <a href="daily/2026-10-12/">最新日報：2026-10-12 台灣市場日報</a>
 - <a href="daily/">日報歷史索引</a>
 
 ## 最新標的狀態
 <div class="thread-feed">
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>過熱</span></div>
-    <p><a href="market/btc/">BTC</a>：放慢節奏，等回檔</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">BTC</span><span>復甦</span></div>
+    <p><a href="market/btc/">BTC</a>：可續投，保留彈性</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">TAIEX</span><span>過熱</span></div>
