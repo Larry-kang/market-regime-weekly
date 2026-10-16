@@ -3,25 +3,25 @@
 <div class="card-grid">
   <div class="card">
     <h3>最新更新</h3>
-    <p>2026-10-15</p>
-    <p>市場仍偏多，但TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。 部分標的資料落後：S&P 500（2026-10-14）、QQQ（2026-10-14）、美國 10Y（2026-10-14）。</p>
+    <p>2026-10-16</p>
+    <p>市場仍偏多，但TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。 部分標的資料落後：S&P 500（2026-10-15）、QQQ（2026-10-15）、美國 10Y（2026-10-15）。</p>
   </div>
   <div class="card">
     <h3>最新日報</h3>
-    <p><a href="daily/2026-10-15/">2026-10-15 台灣市場日報</a></p>
+    <p><a href="daily/2026-10-16/">2026-10-16 台灣市場日報</a></p>
     <p>每日交易日更新</p>
   </div>
   <div class="card">
     <h3>最新週報</h3>
     <p><a href="weekly/2026-10-12/">2026-10-12 台灣市場週報</a></p>
-    <p>更新日期：2026-10-15</p>
+    <p>更新日期：2026-10-16</p>
   </div>
 </div>
 
 ## 快速入口
 - <a href="weekly/2026-10-12/">最新週報：2026-10-12 台灣市場週報</a>
 - <a href="weekly/">週報歷史索引</a>
-- <a href="daily/2026-10-15/">最新日報：2026-10-15 台灣市場日報</a>
+- <a href="daily/2026-10-16/">最新日報：2026-10-16 台灣市場日報</a>
 - <a href="daily/">日報歷史索引</a>
 
 ## 最新標的狀態
@@ -47,15 +47,15 @@
     <p><a href="market/gold/">黃金</a>：可小量布局</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">US10Y</span><span>復甦</span></div>
-    <p><a href="market/us10y/">美國 10Y</a>：利率壓力緩和時可提高風險偏好</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">US10Y</span><span>牛初</span></div>
+    <p><a href="market/us10y/">美國 10Y</a>：若趨勢穩定可視為順風</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">DXY</span><span>過渡</span></div>
     <p><a href="market/dxy/">DXY</a>：暫不追</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>復甦</span></div>
-    <p><a href="market/vix/">VIX</a>：若回升可提高風控</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>過渡</span></div>
+    <p><a href="market/vix/">VIX</a>：觀察波動變化</p>
   </div>
 </div>
