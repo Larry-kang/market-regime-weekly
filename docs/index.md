@@ -3,25 +3,25 @@
 <div class="card-grid">
   <div class="card">
     <h3>最新更新</h3>
-    <p>2026-11-18</p>
-    <p>市場仍偏多，但TAIEX、S&P 500、QQQ、VIX已進入過熱或接近過熱，回檔後再布局會比追高舒服。</p>
+    <p>2026-11-19</p>
+    <p>市場仍偏多，但TAIEX、S&P 500、QQQ已進入過熱或接近過熱，回檔後再布局會比追高舒服。</p>
   </div>
   <div class="card">
     <h3>最新日報</h3>
-    <p><a href="daily/2026-11-18/">2026-11-18 台灣市場日報</a></p>
+    <p><a href="daily/2026-11-19/">2026-11-19 台灣市場日報</a></p>
     <p>每日交易日更新</p>
   </div>
   <div class="card">
     <h3>最新週報</h3>
     <p><a href="weekly/2026-11-16/">2026-11-16 台灣市場週報</a></p>
-    <p>更新日期：2026-11-18</p>
+    <p>更新日期：2026-11-19</p>
   </div>
 </div>
 
 ## 快速入口
 - <a href="weekly/2026-11-16/">最新週報：2026-11-16 台灣市場週報</a>
 - <a href="weekly/">週報歷史索引</a>
-- <a href="daily/2026-11-18/">最新日報：2026-11-18 台灣市場日報</a>
+- <a href="daily/2026-11-19/">最新日報：2026-11-19 台灣市場日報</a>
 - <a href="daily/">日報歷史索引</a>
 
 ## 最新標的狀態
@@ -55,7 +55,7 @@
     <p><a href="market/dxy/">DXY</a>：若美元回落可提高風險偏好</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>過熱</span></div>
-    <p><a href="market/vix/">VIX</a>：若波動升溫，降低追價</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">VIX</span><span>復甦</span></div>
+    <p><a href="market/vix/">VIX</a>：若回升可提高風控</p>
   </div>
 </div>
