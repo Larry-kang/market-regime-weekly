@@ -3,25 +3,25 @@
 <div class="card-grid">
   <div class="card">
     <h3>最新更新</h3>
-    <p>2026-11-27</p>
-    <p>市場結構正在分化，核心資產可續投，但單筆追價的容錯率已經下降。 部分標的資料落後：BTC（2026-11-26）、TAIEX（2026-11-26）、S&P 500（2026-11-25）、QQQ（2026-11-25）、黃金（2026-11-26）、美國 10Y（2026-11-25）、DXY（2026-11-26）、VIX（2026-11-26）。</p>
+    <p>2026-11-28</p>
+    <p>市場仍偏多，但TAIEX、S&P 500、QQQ、VIX已進入過熱或接近過熱，回檔後再布局會比追高舒服。 部分標的資料落後：BTC（2026-11-27）、TAIEX（2026-11-27）、S&P 500（2026-11-27）、QQQ（2026-11-27）、黃金（2026-11-27）、美國 10Y（2026-11-25）、DXY（2026-11-27）、VIX（2026-11-27）。</p>
   </div>
   <div class="card">
     <h3>最新日報</h3>
-    <p><a href="daily/2026-11-27/">2026-11-27 台灣市場日報</a></p>
+    <p><a href="daily/2026-11-28/">2026-11-28 台灣市場日報</a></p>
     <p>每日交易日更新</p>
   </div>
   <div class="card">
     <h3>最新週報</h3>
     <p><a href="weekly/2026-11-23/">2026-11-23 台灣市場週報</a></p>
-    <p>更新日期：2026-11-27</p>
+    <p>更新日期：2026-11-28</p>
   </div>
 </div>
 
 ## 快速入口
 - <a href="weekly/2026-11-23/">最新週報：2026-11-23 台灣市場週報</a>
 - <a href="weekly/">週報歷史索引</a>
-- <a href="daily/2026-11-27/">最新日報：2026-11-27 台灣市場日報</a>
+- <a href="daily/2026-11-28/">最新日報：2026-11-28 台灣市場日報</a>
 - <a href="daily/">日報歷史索引</a>
 
 ## 最新標的狀態
@@ -35,12 +35,12 @@
     <p><a href="market/taiex/">TAIEX</a>：先等回檔，不追高</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">SP500</span><span>復甦</span></div>
-    <p><a href="market/sp500/">S&P 500</a>：核心可續投</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">SP500</span><span>過熱</span></div>
+    <p><a href="market/sp500/">S&P 500</a>：續投但節奏放慢</p>
   </div>
   <div class="thread-card thread-connector">
-    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">QQQ</span><span>復甦</span></div>
-    <p><a href="market/qqq/">QQQ</a>：回檔後分批</p>
+    <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">QQQ</span><span>過熱</span></div>
+    <p><a href="market/qqq/">QQQ</a>：避免追價</p>
   </div>
   <div class="thread-card thread-connector">
     <div class="thread-meta"><span class="thread-avatar"></span><span class="thread-badge">GOLD</span><span>復甦</span></div>
